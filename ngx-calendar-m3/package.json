@@ -23,7 +23,8 @@
     "homepage": "https://github.com/webilix/ngx-calendar-m3#readme",
     "peerDependencies": {
         "@angular/common": ">=19.0.0",
-        "@angular/core": ">=19.0.0"
+        "@angular/core": ">=19.0.0",
+        "@angular/material": ">=19.0.1"
     },
     "dependencies": {
         "tslib": "^2.3.0"
