@@ -1,1 +1,17 @@
 @use '@angular/material' as mat;
+
+:root {
+    @include mat.dialog-overrides(
+        (
+            container-shape: 16px,
+        )
+    );
+}
+
+:root {
+    @include mat.bottom-sheet-overrides(
+        (
+            container-shape: 16px,
+        )
+    );
+}

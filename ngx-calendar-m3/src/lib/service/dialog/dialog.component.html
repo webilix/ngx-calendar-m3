@@ -1,0 +1,20 @@
+<header mat-dialog-title>
+    <div class="title">{{ data.title }}</div>
+    <button mat-icon-button type="button" (click)="closeContainer()">
+        <mat-icon>close</mat-icon>
+    </button>
+</header>
+
+<mat-dialog-content>
+    @switch (data.calendar) {
+    <!-- DATE -->
+    @case ('DATE') {
+    <ngx-calendar-date
+        [value]="data.options.value"
+        [minDate]="data.options.minDate"
+        [maxDate]="data.options.maxDate"
+        [timezone]="data.options.timezone"
+        (onChange)="closeContainer($event)"
+    ></ngx-calendar-date>
+    } }
+</mat-dialog-content>

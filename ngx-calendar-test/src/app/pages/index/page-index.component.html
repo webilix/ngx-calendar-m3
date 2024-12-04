@@ -1,0 +1,17 @@
+<section>
+    <header>
+        <div class="title">DATE</div>
+        <button mat-button (click)="dateContainer = dateContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG'">
+            {{ dateContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG' }}
+        </button>
+    </header>
+    <div class="component">
+        <ngx-calendar-date [value]="date" (onChange)="setDate($event)"></ngx-calendar-date>
+    </div>
+    <div class="value">{{ (date | ngxCalendatDate) || '&nbsp;' }}</div>
+    <div class="buttons">
+        <button mat-flat-button type="button" (click)="getDate()">انتخاب تاریخ</button>
+        <button mat-flat-button type="button" (click)="getDate('MIN')">حداقل</button>
+        <button mat-flat-button type="button" (click)="getDate('MAX')">حداکثر</button>
+    </div>
+</section>

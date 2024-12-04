@@ -31,3 +31,7 @@ body {
     width: auto !important;
     height: auto !important;
 }
+
+body.dark .cdk-overlay-backdrop {
+    background-color: rgba(255, 255, 255, 0.25);
+}
