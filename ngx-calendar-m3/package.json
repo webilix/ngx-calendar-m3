@@ -1,0 +1,32 @@
+{
+    "name": "@webilix/ngx-calendar-m3",
+    "version": "0.0.0",
+    "author": "Ali Amirnezhad",
+    "description": "Jalali calendar components for Angular and Material 3",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/webilix/ngx-calendar-m3.git"
+    },
+    "keywords": [
+        "angular",
+        "calendar",
+        "datepicker",
+        "jalai",
+        "persian",
+        "farsi",
+        "material 3"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/webilix/ngx-calendar-m3/issues"
+    },
+    "homepage": "https://github.com/webilix/ngx-calendar-m3#readme",
+    "peerDependencies": {
+        "@angular/common": ">=19.0.0",
+        "@angular/core": ">=19.0.0"
+    },
+    "dependencies": {
+        "tslib": "^2.3.0"
+    },
+    "sideEffects": false
+}
