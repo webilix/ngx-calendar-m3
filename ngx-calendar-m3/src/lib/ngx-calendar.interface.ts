@@ -5,11 +5,14 @@ export interface INgxCalendarOptions {
     readonly value: Date;
     readonly minDate: Date;
     readonly maxDate: Date;
-    readonly timezone: string;
 }
 
 export interface INgxCalendarDate {
-    readonly timezone: string;
     readonly date: Date;
     readonly jalali: string;
+}
+
+export interface INgxCalendarWeek {
+    readonly period: { from: Date; to: Date };
+    readonly title: string;
 }

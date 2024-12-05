@@ -1,3 +1,23 @@
+<!-- WEEK -->
+<section>
+    <header>
+        <div class="title">WEEK</div>
+        <button mat-button (click)="weekContainer = weekContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG'">
+            {{ weekContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG' }}
+        </button>
+    </header>
+    <div class="component">
+        <ngx-calendar-week [value]="week" (onChange)="setWeek($event)"></ngx-calendar-week>
+    </div>
+    <div class="value">{{ (week?.from | ngxCalendatWeek) || '&nbsp;' }}</div>
+    <div class="buttons">
+        <button mat-flat-button type="button" (click)="getWeek()">انتخاب هفته</button>
+        <button mat-flat-button type="button" (click)="getWeek('MIN')">حداقل</button>
+        <button mat-flat-button type="button" (click)="getWeek('MAX')">حداکثر</button>
+    </div>
+</section>
+
+<!-- DATE -->
 <section>
     <header>
         <div class="title">DATE</div>

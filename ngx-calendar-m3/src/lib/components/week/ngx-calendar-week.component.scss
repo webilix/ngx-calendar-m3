@@ -65,15 +65,14 @@
             border-color: var(--primary);
         }
 
-        .day-selected {
-            color: var(--on-primary);
-            border-color: var(--primary);
-            background-color: var(--primary);
-        }
-
         .day-disable {
             opacity: 0.5;
             cursor: default;
         }
+    }
+
+    .day-selected {
+        color: var(--on-primary);
+        background-color: var(--primary);
     }
 }

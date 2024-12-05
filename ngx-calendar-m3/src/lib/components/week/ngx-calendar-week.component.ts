@@ -1,24 +1,25 @@
 import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Optional, Output, SimpleChanges } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
 
+import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
-import { JalaliDateTime, JalaliDateTimeCalendar } from '@webilix/jalali-date-time';
+import { Helper } from '@webilix/helper-library';
+import { JalaliDateTime, JalaliDateTimeCalendar, JalaliDateTimePeriod } from '@webilix/jalali-date-time';
 
 import { INgxCalendarConfig, NGX_CALENDAR_CONFIG } from '../../ngx-calendar.config';
-import { INgxCalendarDate } from '../../ngx-calendar.interface';
+import { INgxCalendarWeek } from '../../ngx-calendar.interface';
 
 @Component({
-    selector: 'ngx-calendar-date',
+    selector: 'ngx-calendar-week',
     imports: [MatIconButton, MatIcon],
-    templateUrl: './ngx-calendar-date.component.html',
-    styleUrl: './ngx-calendar-date.component.scss',
+    templateUrl: './ngx-calendar-week.component.html',
+    styleUrl: './ngx-calendar-week.component.scss',
 })
-export class NgxCalendarDateComponent implements OnInit, OnChanges {
-    @Input({ required: false }) value?: Date;
+export class NgxCalendarWeekComponent implements OnInit, OnChanges {
+    @Input({ required: false }) value?: Date | { from: Date; to: Date };
     @Input({ required: false }) minDate?: Date;
     @Input({ required: false }) maxDate?: Date;
-    @Output() onChange: EventEmitter<INgxCalendarDate> = new EventEmitter<INgxCalendarDate>();
+    @Output() onChange: EventEmitter<INgxCalendarWeek> = new EventEmitter<INgxCalendarWeek>();
 
     public values!: { today: string; selected: string; minDate: string; maxDate: string };
     public calendar!: JalaliDateTimeCalendar;
@@ -36,6 +37,11 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
     }
 
     initValues(): void {
+        const getSaturday = (date: Date, period: 'from' | 'to'): string => {
+            const week: JalaliDateTimePeriod = this.jalali.periodWeek(1, date);
+            return this.jalali.toString(period === 'from' ? week.from : week.to, { format: 'Y-M-D' });
+        };
+
         // Check MIN and MAX Dates
         if (this.minDate && this.maxDate && this.minDate.getTime() > this.maxDate.getTime()) {
             const date: Date = this.minDate;
@@ -44,17 +50,18 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
         }
 
         // Check Value
-        if (this.value && this.minDate && this.value.getTime() < this.minDate.getTime()) this.value = undefined;
-        if (this.value && this.maxDate && this.value.getTime() > this.maxDate.getTime()) this.value = undefined;
+        let value: Date | undefined = this.value ? ('from' in this.value ? this.value.from : this.value) : undefined;
+        if (value && this.minDate && value.getTime() < this.minDate.getTime()) this.value = undefined;
+        if (value && this.maxDate && value.getTime() > this.maxDate.getTime()) this.value = undefined;
 
         this.values = {
             today: this.jalali.toString(new Date(), { format: 'Y-M-D' }),
-            selected: this.value ? this.jalali.toString(this.value, { format: 'Y-M-D' }) : '',
-            minDate: this.minDate ? this.jalali.toString(this.minDate, { format: 'Y-M-D' }) : '0000-00-00',
-            maxDate: this.maxDate ? this.jalali.toString(this.maxDate, { format: 'Y-M-D' }) : '9999-99-99',
+            selected: value ? getSaturday(value, 'from') : '',
+            minDate: this.minDate ? getSaturday(this.minDate, 'from') : '0000-00-00',
+            maxDate: this.maxDate ? getSaturday(this.maxDate, 'to') : '9999-99-99',
         };
 
-        const month: string = this.jalali.toString(this.value || new Date(), { format: 'Y-M' });
+        const month: string = this.jalali.toString(value || new Date(), { format: 'Y-M' });
         this.calendar = this.jalali.calendar(month);
     }
 
@@ -90,9 +97,10 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
     setDate(value: string): void {
         const gregorian: string = this.jalali.gregorian(value).date;
         const date: Date = this.jalali.periodDay(1, new Date(gregorian + 'T00:00:00.000Z')).from;
-        const jalali: string = this.jalali.toString(date, { format: 'Y-M-D' });
+        const period: JalaliDateTimePeriod = this.jalali.periodWeek(1, date);
+        const title: string = Helper.DATE.jalaliPeriod(period.from, period.to);
 
-        this.values.selected = value;
-        this.onChange.next({ date, jalali });
+        this.values.selected = this.jalali.toString(period.from, { format: 'Y-M-D' });
+        this.onChange.next({ period, title });
     }
 }

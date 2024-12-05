@@ -1,0 +1,47 @@
+<header>
+    <div class="month">{{ calendar.title }}</div>
+    <div [style.flex]="1"></div>
+
+    <button mat-icon-button type="button" (click)="changeMonth(-12)">
+        <mat-icon>keyboard_double_arrow_right</mat-icon>
+    </button>
+    <button mat-icon-button type="button" (click)="changeMonth(-1)">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button mat-icon-button type="button" (click)="changeMonth(0)">
+        <mat-icon>radio_button_checked</mat-icon>
+    </button>
+    <button mat-icon-button type="button" (click)="changeMonth(1)">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button mat-icon-button type="button" (click)="changeMonth(12)">
+        <mat-icon>keyboard_double_arrow_left</mat-icon>
+    </button>
+</header>
+
+<content class="names">
+    <!-- NAMES -->
+    @for (day of ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج']; track $index) {
+    <div class="name">{{ day }}</div>
+    }
+</content>
+
+<!-- WEEK -->
+@for ( week of calendar.weeks; track $index) {
+<content class="days" [class.day-selected]="week[0].date === values.selected">
+    <!-- DAYS -->
+    @for (day of week; track $index) {
+    <div
+        class="day"
+        [class.day-today]="day.date === values.today"
+        [class.day-selected]="week[0].date === values.selected"
+        [class.day-disable]="day.month !== calendar.month || day.date > values.maxDate || day.date < values.minDate"
+        (click)="
+            day.month !== calendar.month || day.date > values.maxDate || day.date < values.minDate ? null : setDate(day.date)
+        "
+    >
+        {{ day.day }}
+    </div>
+    }
+</content>
+}

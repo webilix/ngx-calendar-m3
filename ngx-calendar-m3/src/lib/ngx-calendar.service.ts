@@ -4,7 +4,7 @@ import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-s
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { BottomSheetComponent, DialogComponent } from './service';
-import { INgxCalendarDate, INgxCalendarOptions, NgxCalendar } from './ngx-calendar.interface';
+import { INgxCalendarDate, INgxCalendarOptions, INgxCalendarWeek, NgxCalendar } from './ngx-calendar.interface';
 
 class NgxCalendarClass<R /* RESPONSE */> {
     constructor(
@@ -80,5 +80,13 @@ export class NgxCalendarService {
         const options: Partial<INgxCalendarOptions> = arg1 || {};
 
         return new NgxCalendarClass<INgxCalendarDate>('DATE', this.matBottomSheet, this.matDialog, options);
+    }
+
+    getWeek(): NgxCalendarClass<INgxCalendarWeek>;
+    getWeek(options: Partial<INgxCalendarOptions>): NgxCalendarClass<INgxCalendarWeek>;
+    getWeek(arg1?: any): NgxCalendarClass<INgxCalendarWeek> {
+        const options: Partial<INgxCalendarOptions> = arg1 || {};
+
+        return new NgxCalendarClass<INgxCalendarWeek>('WEEK', this.matBottomSheet, this.matDialog, options);
     }
 }

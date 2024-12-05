@@ -12,7 +12,15 @@
     [value]="data.options.value"
     [minDate]="data.options.minDate"
     [maxDate]="data.options.maxDate"
-    [timezone]="data.options.timezone"
     (onChange)="closeContainer($event)"
 ></ngx-calendar-date>
-} }
+}
+<!-- WEEK -->
+@case ('WEEK') {
+<ngx-calendar-week
+    [value]="data.options.value"
+    [minDate]="data.options.minDate"
+    [maxDate]="data.options.maxDate"
+    (onChange)="closeContainer($event)"
+></ngx-calendar-week>
+}}
