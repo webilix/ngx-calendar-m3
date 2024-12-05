@@ -57,6 +57,8 @@ export class NgxCalendarMonthComponent implements OnInit, OnChanges {
     }
 
     initValues(): void {
+        const getMonth = (date: Date): string => this.jalali.toString(date, { format: 'Y-M' });
+
         // Check MIN and MAX Dates
         if (this.minDate && this.maxDate && this.minDate.getTime() > this.maxDate.getTime()) {
             const date: Date = this.minDate;
@@ -66,14 +68,14 @@ export class NgxCalendarMonthComponent implements OnInit, OnChanges {
 
         // Check Value
         let value: Date | undefined = this.value ? ('from' in this.value ? this.value.from : this.value) : undefined;
-        if (value && this.minDate && value.getTime() < this.minDate.getTime()) this.value = undefined;
-        if (value && this.maxDate && value.getTime() > this.maxDate.getTime()) this.value = undefined;
+        if (value && this.minDate && getMonth(value) < getMonth(this.minDate)) value = undefined;
+        if (value && this.maxDate && getMonth(value) > getMonth(this.maxDate)) value = undefined;
 
         this.values = {
-            today: this.jalali.toString(new Date(), { format: 'Y-M' }),
-            selected: value ? this.jalali.toString(value, { format: 'Y-M' }) : '',
-            minDate: this.minDate ? this.jalali.toString(this.minDate, { format: 'Y-M' }) : '0000-00',
-            maxDate: this.maxDate ? this.jalali.toString(this.maxDate, { format: 'Y-M' }) : '9999-99',
+            today: getMonth(new Date()),
+            selected: value ? getMonth(value) : '',
+            minDate: this.minDate ? getMonth(this.minDate) : '0000-00',
+            maxDate: this.maxDate ? getMonth(this.maxDate) : '9999-99',
         };
 
         const year: string = this.values.selected ? this.values.selected : this.values.today;

@@ -3,13 +3,17 @@ import { Component } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 
 import {
+    INgxCalendar,
     INgxCalendarDate,
     INgxCalendarMonth,
     INgxCalendarWeek,
+    INgxCalendarYear,
+    NgxCalendarComponent,
     NgxCalendarDateComponent,
     NgxCalendarMonthComponent,
     NgxCalendarService,
     NgxCalendarWeekComponent,
+    NgxCalendarYearComponent,
     NgxCalendatDatePipe,
     NgxCalendatMonthPipe,
     NgxCalendatWeekPipe,
@@ -21,18 +25,26 @@ type Container = 'DIALOG' | 'BOTTOMSHEET';
     host: { selector: 'page-index' },
     imports: [
         MatButton,
+        NgxCalendarComponent,
         NgxCalendarDateComponent,
         NgxCalendatDatePipe,
         NgxCalendarWeekComponent,
         NgxCalendatWeekPipe,
         NgxCalendarMonthComponent,
         NgxCalendatMonthPipe,
+        NgxCalendarYearComponent,
     ],
     templateUrl: './page-index.component.html',
     styleUrl: './page-index.component.scss',
 })
 export class PageIndexComponent {
     constructor(private readonly ngxCalendarService: NgxCalendarService) {}
+
+    public calendarMinDate?: Date = new Date(new Date().getTime() - 365 * 24 * 3600 * 1000);
+    public calendarMaxDate?: Date = new Date(new Date().getTime() + 365 * 24 * 3600 * 1000);
+    setCalendar(calendar: INgxCalendar): void {
+        console.log('CALENDAR CHANGE:', calendar);
+    }
 
     //#region DATE
     public date?: Date;
@@ -109,6 +121,32 @@ export class PageIndexComponent {
 
     setMonth(value: INgxCalendarMonth): void {
         this.month = value.period;
+    }
+    //#endregion
+
+    //#region YEAR
+    public year?: { from: Date; to: Date };
+    public yearContainer: Container = 'DIALOG';
+
+    getYear(type?: 'MIN' | 'MAX'): void {
+        const year = this.ngxCalendarService.getYear({
+            value: this.year,
+            minDate: type === 'MIN' ? new Date() : undefined,
+            maxDate: type === 'MAX' ? new Date() : undefined,
+        });
+
+        switch (this.yearContainer) {
+            case 'DIALOG':
+                year.dialog((value) => (this.year = value.period));
+                break;
+            case 'BOTTOMSHEET':
+                year.bottomSheet((value) => (this.year = value.period));
+                break;
+        }
+    }
+
+    setYear(value: INgxCalendarYear): void {
+        this.year = value.period;
     }
     //#endregion
 }

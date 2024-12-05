@@ -64,6 +64,10 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
         this.initValues();
     }
 
+    formatDate(date: Date): string {
+        return this.jalali.toString(date, { format: 'Y-M-D' });
+    }
+
     initValues(): void {
         // Check MIN and MAX Dates
         if (this.minDate && this.maxDate && this.minDate.getTime() > this.maxDate.getTime()) {
@@ -73,14 +77,16 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
         }
 
         // Check Value
-        if (this.value && this.minDate && this.value.getTime() < this.minDate.getTime()) this.value = undefined;
-        if (this.value && this.maxDate && this.value.getTime() > this.maxDate.getTime()) this.value = undefined;
+        if (this.value && this.minDate && this.formatDate(this.value) < this.formatDate(this.minDate))
+            this.value = undefined;
+        if (this.value && this.maxDate && this.formatDate(this.value) > this.formatDate(this.maxDate))
+            this.value = undefined;
 
         this.values = {
-            today: this.jalali.toString(new Date(), { format: 'Y-M-D' }),
-            selected: this.value ? this.jalali.toString(this.value, { format: 'Y-M-D' }) : '',
-            minDate: this.minDate ? this.jalali.toString(this.minDate, { format: 'Y-M-D' }) : '0000-00-00',
-            maxDate: this.maxDate ? this.jalali.toString(this.maxDate, { format: 'Y-M-D' }) : '9999-99-99',
+            today: this.formatDate(new Date()),
+            selected: this.value ? this.formatDate(this.value) : '',
+            minDate: this.minDate ? this.formatDate(this.minDate) : '0000-00-00',
+            maxDate: this.maxDate ? this.formatDate(this.maxDate) : '9999-99-99',
         };
 
         const month: string = this.jalali.toString(this.value || new Date(), { format: 'Y-M' });
@@ -121,7 +127,7 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
         const gregorian: string = this.jalali.gregorian(value).date;
         const date: Date = this.jalali.periodDay(1, new Date(gregorian + 'T00:00:00.000Z')).from;
         const title: string = this.jalali.toFullText(date, { format: 'W، d N Y' });
-        const jalali: string = this.jalali.toString(date, { format: 'Y-M-D' });
+        const jalali: string = this.formatDate(date);
 
         this.values.selected = value;
         this.onChange.next({ date, title, jalali });

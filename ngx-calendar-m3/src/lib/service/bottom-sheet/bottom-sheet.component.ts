@@ -4,14 +4,26 @@ import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bott
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
-import { NgxCalendarDateComponent, NgxCalendarMonthComponent, NgxCalendarWeekComponent } from '../../components';
+import {
+    NgxCalendarDateComponent,
+    NgxCalendarMonthComponent,
+    NgxCalendarWeekComponent,
+    NgxCalendarYearComponent,
+} from '../../components';
 import { NgxCalendar } from '../../ngx-calendar.interface';
 
 import { IContainer } from '../container.interface';
 
 @Component({
     host: { selector: 'bottom-sheet' },
-    imports: [MatIconButton, MatIcon, NgxCalendarDateComponent, NgxCalendarWeekComponent, NgxCalendarMonthComponent],
+    imports: [
+        MatIconButton,
+        MatIcon,
+        NgxCalendarDateComponent,
+        NgxCalendarWeekComponent,
+        NgxCalendarMonthComponent,
+        NgxCalendarYearComponent,
+    ],
     templateUrl: './bottom-sheet.component.html',
     styleUrl: './bottom-sheet.component.scss',
 })

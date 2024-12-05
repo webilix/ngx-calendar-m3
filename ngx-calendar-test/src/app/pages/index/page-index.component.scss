@@ -1,8 +1,15 @@
+.calendar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+}
+
 .calendars {
     display: flex;
     flex-direction: row-reverse;
     align-items: flex-start;
-    column-gap: 1rem;
+    column-gap: 3rem;
 
     section {
         flex: 1;
@@ -10,8 +17,16 @@
 }
 
 @media only screen and (max-width: 900px) {
+    .calendar {
+        margin-top: 0;
+    }
+
     .calendars {
         display: block;
+
+        section {
+            margin-top: 1rem;
+        }
     }
 }
 
@@ -22,7 +37,7 @@ section {
     border-radius: 4px;
     border: 1px solid var(--outline-variant);
     box-shadow: 0 1px 5px 0 var(--outline);
-    margin-top: 1rem;
+    margin-top: 3rem;
 
     header {
         display: flex;
@@ -44,7 +59,7 @@ section {
     }
 
     .component {
-        width: 400px;
+        width: 355px;
         max-width: 100%;
         margin: 0 auto;
     }

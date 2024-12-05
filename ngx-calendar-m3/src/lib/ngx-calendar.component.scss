@@ -1,0 +1,62 @@
+:host {
+    display: block;
+
+    height: var(--height);
+    width: min(var(--width), 100%);
+
+    mat-icon {
+        font-size: 18px;
+    }
+}
+
+content {
+    display: flex;
+    align-items: center;
+
+    direction: rtl;
+    border-radius: 4px;
+    border: 1px solid var(--outline-variant);
+
+    section.calendars {
+        display: flex;
+        align-items: center;
+        column-gap: 0.5rem;
+        height: var(--height);
+
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 45px;
+        padding: 0 0.5rem;
+        color: var(--primary);
+        border-radius: 0 4px 4px 0;
+        background-color: var(--surface-container-highest);
+    }
+
+    section.value {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        height: var(--height);
+
+        cursor: pointer;
+        padding: 0 1rem;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    section.buttons {
+        display: flex;
+        align-items: center;
+        height: var(--height);
+
+        border-radius: 4px 0 0 4px;
+        background-color: var(--surface-container-highest);
+    }
+
+    section.square {
+        border-radius: 0;
+    }
+}

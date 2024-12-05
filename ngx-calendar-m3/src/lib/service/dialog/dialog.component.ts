@@ -4,7 +4,12 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
-import { NgxCalendarDateComponent, NgxCalendarMonthComponent, NgxCalendarWeekComponent } from '../../components';
+import {
+    NgxCalendarDateComponent,
+    NgxCalendarMonthComponent,
+    NgxCalendarWeekComponent,
+    NgxCalendarYearComponent,
+} from '../../components';
 import { NgxCalendar } from '../../ngx-calendar.interface';
 
 import { IContainer } from '../container.interface';
@@ -18,6 +23,7 @@ import { IContainer } from '../container.interface';
         NgxCalendarDateComponent,
         NgxCalendarWeekComponent,
         NgxCalendarMonthComponent,
+        NgxCalendarYearComponent,
     ],
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',

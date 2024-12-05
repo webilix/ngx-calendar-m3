@@ -1,0 +1,33 @@
+<header>
+    <div class="month">{{ years[0] }} - {{ years[years.length - 1] }}</div>
+    <div [style.flex]="1"></div>
+
+    <button mat-icon-button type="button" (click)="changeYear(years[0] - 1)">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button mat-icon-button type="button" (click)="changeYear(+values.today)">
+        <mat-icon>radio_button_checked</mat-icon>
+    </button>
+    <button mat-icon-button type="button" (click)="changeYear(years[years.length - 1] + 1)">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+</header>
+
+<!-- YEARS -->
+<content class="years">
+    @for (year of years; track $index) {
+    <div
+        class="year"
+        [class.year-today]="+values.today === year"
+        [class.year-selected]="+values.selected === year"
+        [class.year-disable]="(values.minDate && year < +values.minDate) || (values.maxDate && year > +values.maxDate)"
+        (click)="
+            (values.minDate && year < +values.minDate) || (values.maxDate && year > +values.maxDate)
+                ? null
+                : setYear(year.toString())
+        "
+    >
+        {{ year }}
+    </div>
+    }
+</content>

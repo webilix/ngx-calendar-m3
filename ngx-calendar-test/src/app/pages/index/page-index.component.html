@@ -1,3 +1,14 @@
+<div class="calendar">
+    <ngx-calendar
+        [calendars]="['DATE', 'WEEK', 'MONTH', 'YEAR', 'PERIOD']"
+        [minDate]="calendarMinDate"
+        [maxDate]="calendarMaxDate"
+        [route]="['/']"
+        (onChanged)="setCalendar($event)"
+        [width]="500"
+    ></ngx-calendar>
+</div>
+
 <div class="calendars">
     <!-- DATE -->
     <section>
@@ -36,7 +47,9 @@
             <button mat-flat-button type="button" (click)="getWeek('MAX')">حداکثر</button>
         </div>
     </section>
+</div>
 
+<div class="calendars">
     <!-- MONTH -->
     <section>
         <header>
@@ -53,6 +66,25 @@
             <button mat-flat-button type="button" (click)="getMonth()">انتخاب ماه</button>
             <button mat-flat-button type="button" (click)="getMonth('MIN')">حداقل</button>
             <button mat-flat-button type="button" (click)="getMonth('MAX')">حداکثر</button>
+        </div>
+    </section>
+
+    <!-- YEAR -->
+    <section>
+        <header>
+            <div class="title">YEAR</div>
+            <button mat-button (click)="yearContainer = yearContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG'">
+                {{ yearContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG' }}
+            </button>
+        </header>
+        <div class="component">
+            <ngx-calendar-year [value]="year" (onChange)="setYear($event)"></ngx-calendar-year>
+        </div>
+        <div class="value">{{ (year?.from | ngxCalendatDate : { format: 'Y' }) || '&nbsp;' }}</div>
+        <div class="buttons">
+            <button mat-flat-button type="button" (click)="getYear()">انتخاب سال</button>
+            <button mat-flat-button type="button" (click)="getYear('MIN')">حداقل</button>
+            <button mat-flat-button type="button" (click)="getYear('MAX')">حداکثر</button>
         </div>
     </section>
 </div>

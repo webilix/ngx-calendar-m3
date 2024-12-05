@@ -65,10 +65,14 @@ export class NgxCalendarWeekComponent implements OnInit, OnChanges {
         this.initValues();
     }
 
+    formatDate(date: Date): string {
+        return this.jalali.toString(date, { format: 'Y-M-D' });
+    }
+
     initValues(): void {
-        const getSaturday = (date: Date, period: 'from' | 'to'): string => {
+        const getWeek = (date: Date, period: 'from' | 'to'): string => {
             const week: JalaliDateTimePeriod = this.jalali.periodWeek(1, date);
-            return this.jalali.toString(period === 'from' ? week.from : week.to, { format: 'Y-M-D' });
+            return this.formatDate(period === 'from' ? week.from : week.to);
         };
 
         // Check MIN and MAX Dates
@@ -80,14 +84,14 @@ export class NgxCalendarWeekComponent implements OnInit, OnChanges {
 
         // Check Value
         let value: Date | undefined = this.value ? ('from' in this.value ? this.value.from : this.value) : undefined;
-        if (value && this.minDate && value.getTime() < this.minDate.getTime()) this.value = undefined;
-        if (value && this.maxDate && value.getTime() > this.maxDate.getTime()) this.value = undefined;
+        if (value && this.minDate && this.formatDate(value) < getWeek(this.minDate, 'from')) value = undefined;
+        if (value && this.maxDate && this.formatDate(value) > getWeek(this.maxDate, 'to')) value = undefined;
 
         this.values = {
-            today: this.jalali.toString(new Date(), { format: 'Y-M-D' }),
-            selected: value ? getSaturday(value, 'from') : '',
-            minDate: this.minDate ? getSaturday(this.minDate, 'from') : '0000-00-00',
-            maxDate: this.maxDate ? getSaturday(this.maxDate, 'to') : '9999-99-99',
+            today: this.formatDate(new Date()),
+            selected: value ? getWeek(value, 'from') : '',
+            minDate: this.minDate ? getWeek(this.minDate, 'from') : '0000-00-00',
+            maxDate: this.maxDate ? getWeek(this.maxDate, 'to') : '9999-99-99',
         };
 
         const month: string = this.jalali.toString(value || new Date(), { format: 'Y-M' });
@@ -130,7 +134,7 @@ export class NgxCalendarWeekComponent implements OnInit, OnChanges {
         const period: JalaliDateTimePeriod = this.jalali.periodWeek(1, date);
         const title: string = Helper.DATE.jalaliPeriod(period.from, period.to);
 
-        this.values.selected = this.jalali.toString(period.from, { format: 'Y-M-D' });
+        this.values.selected = this.formatDate(period.from);
         this.onChange.next({ period, title });
     }
 
