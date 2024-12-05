@@ -1,47 +1,93 @@
 <header>
-    <div class="month">{{ calendar.title }}</div>
+    <button mat-icon-button type="button" (click)="toggleView()">
+        <mat-icon>{{ view === 'CALENDAR' ? 'calendar_month' : 'close' }}</mat-icon>
+    </button>
+    <div class="month">{{ view === 'CALENDAR' ? calendar.title : year }}</div>
     <div [style.flex]="1"></div>
 
-    <button mat-icon-button type="button" (click)="changeMonth(-12)">
+    <button mat-icon-button type="button" (click)="view === 'CALENDAR' ? changeMonth(-12) : changeYear(year - 10)">
         <mat-icon>keyboard_double_arrow_right</mat-icon>
     </button>
-    <button mat-icon-button type="button" (click)="changeMonth(-1)">
+    <button mat-icon-button type="button" (click)="view === 'CALENDAR' ? changeMonth(-1) : changeYear(year - 1)">
         <mat-icon>chevron_right</mat-icon>
     </button>
-    <button mat-icon-button type="button" (click)="changeMonth(0)">
+    <button mat-icon-button type="button" (click)="view === 'CALENDAR' ? changeMonth(0) : changeYear(year)">
         <mat-icon>radio_button_checked</mat-icon>
     </button>
-    <button mat-icon-button type="button" (click)="changeMonth(1)">
+    <button mat-icon-button type="button" (click)="view === 'CALENDAR' ? changeMonth(1) : changeYear(year + 1)">
         <mat-icon>chevron_left</mat-icon>
     </button>
-    <button mat-icon-button type="button" (click)="changeMonth(12)">
+    <button mat-icon-button type="button" (click)="view === 'CALENDAR' ? changeMonth(12) : changeYear(year + 10)">
         <mat-icon>keyboard_double_arrow_left</mat-icon>
     </button>
 </header>
 
-<!-- NAMES -->
-<content class="names">
+<!-- NAMES / YEARS -->
+<content class="header">
+    @switch (view) {
+    <!-- CALENDAR -->
+    @case ('CALENDAR') {
+    <!-- NAMES  -->
     @for (day of ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج']; track $index) {
     <div class="name">{{ day }}</div>
-    }
+    } } @case ('MONTH') {
+    <!-- YEARS -->
+    @for (item of years; track $index) {
+    <div class="year" (click)="changeYear(item)">{{ item }}</div>
+    } } }
 </content>
 
-<!-- WEEK -->
-@for ( week of calendar.weeks; track $index) {
-<content class="days">
-    <!-- DAYS -->
-    @for (day of week; track $index) {
-    <div
-        class="day"
-        [class.day-today]="day.date === values.today"
-        [class.day-selected]="day.date === values.selected"
-        [class.day-disable]="day.month !== calendar.month || day.date > values.maxDate || day.date < values.minDate"
-        (click)="
-            day.month !== calendar.month || day.date > values.maxDate || day.date < values.minDate ? null : setDate(day.date)
-        "
-    >
-        {{ day.day }}
-    </div>
+<content class="page">
+    <section class="calendar-view" [style.visibility]="view === 'CALENDAR' ? 'visible' : 'hidden'">
+        <!-- WEEK -->
+        @for ( week of calendar.weeks; track $index) {
+        <content class="days">
+            <!-- DAYS -->
+            @for (day of week; track $index) {
+            <div
+                class="day"
+                [class.day-today]="day.date === values.today"
+                [class.day-selected]="day.date === values.selected"
+                [class.day-disable]="day.month !== calendar.month || day.date > values.maxDate || day.date < values.minDate"
+                (click)="
+                    day.month !== calendar.month || day.date > values.maxDate || day.date < values.minDate
+                        ? null
+                        : setDate(day.date)
+                "
+            >
+                {{ day.day }}
+            </div>
+            }
+        </content>
+        }
+    </section>
+
+    <!-- MONTH VIEW -->
+    @if (view === 'MONTH') {
+    <section class="month-view" [@month]>
+        <!-- SEASON -->
+        @for (season of seasons; track $index) {
+        <content class="season">
+            <!-- MONTH -->
+            @for (month of season; track $index) {
+            <div
+                class="month"
+                [class.month-today]="month.month === values.today"
+                [class.month-selected]="month.month === values.selected"
+                [class.month-disable]="
+                    (values.minDate && month.month < values.minDate) || (values.maxDate && month.month > values.maxDate)
+                "
+                (click)="
+                    (values.minDate && month.month < values.minDate) || (values.maxDate && month.month > values.maxDate)
+                        ? null
+                        : setMonth(month.month)
+                "
+            >
+                {{ month.title }}
+            </div>
+            }
+        </content>
+        }
+    </section>
     }
 </content>
-}

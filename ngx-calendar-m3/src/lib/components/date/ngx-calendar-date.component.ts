@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -12,6 +13,11 @@ import { INgxCalendarDate } from '../../ngx-calendar.interface';
     imports: [MatIconButton, MatIcon],
     templateUrl: './ngx-calendar-date.component.html',
     styleUrl: './ngx-calendar-date.component.scss',
+    animations: [
+        trigger('month', [
+            transition(':enter', [style({ height: '*', opacity: 0 }), animate('150ms', style({ height: '*', opacity: 1 }))]),
+        ]),
+    ],
 })
 export class NgxCalendarDateComponent implements OnInit, OnChanges {
     @Input({ required: false }) value?: Date;
@@ -19,8 +25,34 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
     @Input({ required: false }) maxDate?: Date;
     @Output() onChange: EventEmitter<INgxCalendarDate> = new EventEmitter<INgxCalendarDate>();
 
+    public view: 'CALENDAR' | 'MONTH' = 'CALENDAR';
     public values!: { today: string; selected: string; minDate: string; maxDate: string };
     public calendar!: JalaliDateTimeCalendar;
+
+    public year!: number;
+    public years: number[] = [];
+    public seasons: { title: string; month: string }[][] = [
+        [
+            { title: 'فروردین', month: '' },
+            { title: 'اردیبهشت', month: '' },
+            { title: 'خرداد', month: '' },
+        ],
+        [
+            { title: 'تیر', month: '' },
+            { title: 'مرداد', month: '' },
+            { title: 'شهریور', month: '' },
+        ],
+        [
+            { title: 'مهر', month: '' },
+            { title: 'آبان', month: '' },
+            { title: 'آذر', month: '' },
+        ],
+        [
+            { title: 'دی', month: '' },
+            { title: 'بهمن', month: '' },
+            { title: 'اسفند', month: '' },
+        ],
+    ];
 
     private jalali = JalaliDateTime();
 
@@ -53,6 +85,7 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
 
         const month: string = this.jalali.toString(this.value || new Date(), { format: 'Y-M' });
         this.calendar = this.jalali.calendar(month);
+        this.view = 'CALENDAR';
     }
 
     changeMonth(change: number): void {
@@ -92,5 +125,29 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
 
         this.values.selected = value;
         this.onChange.next({ date, title, jalali });
+    }
+
+    toggleView(): void {
+        this.view = this.view === 'CALENDAR' ? 'MONTH' : 'CALENDAR';
+        if (this.view === 'MONTH') this.changeYear(+this.calendar.month.substring(0, 4));
+    }
+
+    changeYear(year?: number): void {
+        if (year && year < 1000) return;
+        this.year = year || +this.values.today.substring(0, 4);
+
+        let decade: number = this.year - (this.year % 10);
+        if (decade <= 1020) decade = 1020;
+        this.years = [decade - 20, decade - 10, decade, decade + 10, decade + 20];
+        this.seasons.forEach((season, s: number) => {
+            season.forEach((month, m: number) => {
+                month.month = `${this.year.toString()}-${(s * 3 + m + 1).toString().padStart(2, '0')}`;
+            });
+        });
+    }
+
+    setMonth(month: string): void {
+        this.calendar = this.jalali.calendar(month);
+        this.view = 'CALENDAR';
     }
 }

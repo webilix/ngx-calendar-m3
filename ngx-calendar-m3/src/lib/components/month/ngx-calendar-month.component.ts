@@ -81,6 +81,7 @@ export class NgxCalendarMonthComponent implements OnInit, OnChanges {
     }
 
     changeYear(year?: number): void {
+        if (year && year < 1000) return;
         this.year = year || +this.values.today.substring(0, 4);
 
         let decade: number = this.year - (this.year % 10);
