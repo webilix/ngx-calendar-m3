@@ -10,6 +10,5 @@ export * from './lib/pipes/ngx-calendat-date.pipe';
 export * from './lib/pipes/ngx-calendat-week.pipe';
 export * from './lib/pipes/ngx-calendat-month.pipe';
 
-export * from './lib/ngx-calendar.config';
 export * from './lib/ngx-calendar.interface';
 export * from './lib/ngx-calendar.service';
