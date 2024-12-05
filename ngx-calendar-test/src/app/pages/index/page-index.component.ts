@@ -55,7 +55,7 @@ export class PageIndexComponent {
 
     getWeek(type?: 'MIN' | 'MAX'): void {
         const week = this.ngxCalendarService.getWeek({
-            value: this.week?.from,
+            value: this.week,
             minDate: type === 'MIN' ? new Date() : undefined,
             maxDate: type === 'MAX' ? new Date() : undefined,
         });

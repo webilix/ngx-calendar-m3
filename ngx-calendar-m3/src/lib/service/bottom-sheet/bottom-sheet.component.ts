@@ -5,7 +5,9 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 import { NgxCalendarDateComponent, NgxCalendarWeekComponent } from '../../components';
-import { INgxCalendarOptions, NgxCalendar } from '../../ngx-calendar.interface';
+import { NgxCalendar } from '../../ngx-calendar.interface';
+
+import { IContainer } from '../container.interface';
 
 @Component({
     host: { selector: 'bottom-sheet' },
@@ -14,11 +16,7 @@ import { INgxCalendarOptions, NgxCalendar } from '../../ngx-calendar.interface';
     styleUrl: './bottom-sheet.component.scss',
 })
 export class BottomSheetComponent<R> {
-    public data: {
-        title: string;
-        calendar: NgxCalendar;
-        options: Partial<INgxCalendarOptions>;
-    } = inject(MAT_BOTTOM_SHEET_DATA);
+    public data: { calendar: NgxCalendar; container: IContainer } = inject(MAT_BOTTOM_SHEET_DATA);
 
     constructor(private readonly matBottomSheetRef: MatBottomSheetRef<BottomSheetComponent<R>>) {}
 

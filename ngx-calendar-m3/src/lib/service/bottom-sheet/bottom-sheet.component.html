@@ -1,5 +1,5 @@
 <header>
-    <div class="title">{{ data.title }}</div>
+    <div class="title">{{ data.container.title }}</div>
     <button mat-icon-button type="button" (click)="closeContainer()">
         <mat-icon>close</mat-icon>
     </button>
@@ -9,18 +9,18 @@
 <!-- DATE -->
 @case ('DATE') {
 <ngx-calendar-date
-    [value]="data.options.value"
-    [minDate]="data.options.minDate"
-    [maxDate]="data.options.maxDate"
+    [value]="data.container.value?.from"
+    [minDate]="data.container.minDate"
+    [maxDate]="data.container.maxDate"
     (onChange)="closeContainer($event)"
 ></ngx-calendar-date>
 }
 <!-- WEEK -->
 @case ('WEEK') {
 <ngx-calendar-week
-    [value]="data.options.value"
-    [minDate]="data.options.minDate"
-    [maxDate]="data.options.maxDate"
+    [value]="data.container.value"
+    [minDate]="data.container.minDate"
+    [maxDate]="data.container.maxDate"
     (onChange)="closeContainer($event)"
 ></ngx-calendar-week>
 }}

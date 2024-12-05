@@ -90,9 +90,10 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
     setDate(value: string): void {
         const gregorian: string = this.jalali.gregorian(value).date;
         const date: Date = this.jalali.periodDay(1, new Date(gregorian + 'T00:00:00.000Z')).from;
+        const title: string = this.jalali.toFullText(date, { format: 'W، d N Y' });
         const jalali: string = this.jalali.toString(date, { format: 'Y-M-D' });
 
         this.values.selected = value;
-        this.onChange.next({ date, jalali });
+        this.onChange.next({ date, title, jalali });
     }
 }

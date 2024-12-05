@@ -1,7 +1,7 @@
 import { Inject, Optional, Pipe, PipeTransform } from '@angular/core';
 
-import { JalaliDateTime } from '@webilix/jalali-date-time';
 import { Helper } from '@webilix/helper-library';
+import { JalaliDateTime } from '@webilix/jalali-date-time';
 
 import { INgxCalendarConfig, NGX_CALENDAR_CONFIG } from '../ngx-calendar.config';
 
