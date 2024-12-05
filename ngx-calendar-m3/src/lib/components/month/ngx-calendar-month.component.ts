@@ -22,6 +22,7 @@ export class NgxCalendarMonthComponent implements OnInit, OnChanges {
     public values!: { today: string; selected: string; minDate: string; maxDate: string };
     public year!: number;
 
+    public years: number[] = [];
     public seasons: { title: string; month: string }[][] = [
         [
             { title: 'فروردین', month: '' },
@@ -81,6 +82,10 @@ export class NgxCalendarMonthComponent implements OnInit, OnChanges {
 
     changeYear(year?: number): void {
         this.year = year || +this.values.today.substring(0, 4);
+
+        let decade: number = this.year - (this.year % 10);
+        if (decade <= 1020) decade = 1020;
+        this.years = [decade - 20, decade - 10, decade, decade + 10, decade + 20];
         this.seasons.forEach((season, s: number) => {
             season.forEach((month, m: number) => {
                 month.month = `${this.year.toString()}-${(s * 3 + m + 1).toString().padStart(2, '0')}`;

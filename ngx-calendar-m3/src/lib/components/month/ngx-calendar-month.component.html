@@ -19,9 +19,16 @@
     </button>
 </header>
 
+<!-- YEARS -->
+<content class="years">
+    @for (item of years; track $index) {
+    <div class="year" (click)="changeYear(item)">{{ item }}</div>
+    }
+</content>
+
 <!-- SEASON -->
 @for (season of seasons; track $index) {
-<section class="season">
+<content class="season">
     <!-- MONTH -->
     @for (month of season; track $index) {
     <div
@@ -40,13 +47,5 @@
         {{ month.title }}
     </div>
     }
-</section>
+</content>
 }
-
-<!--     
-    [ngClass]="{
-        month: true,
-        today: month.month === today,
-        current: month.month === current,
-        disable: (minDate && month.month < minDate) || (maxDate && month.month > maxDate)
-    }" -->
