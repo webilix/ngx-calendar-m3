@@ -24,5 +24,14 @@
         [maxDate]="data.container.maxDate"
         (onChange)="closeContainer($event)"
     ></ngx-calendar-week>
+    }
+    <!-- MONTH -->
+    @case ('MONTH') {
+    <ngx-calendar-month
+        [value]="data.container.value"
+        [minDate]="data.container.minDate"
+        [maxDate]="data.container.maxDate"
+        (onChange)="closeContainer($event)"
+    ></ngx-calendar-month>
     } }
 </mat-dialog-content>

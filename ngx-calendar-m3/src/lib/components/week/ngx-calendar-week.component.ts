@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Optional, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -6,7 +6,6 @@ import { MatIcon } from '@angular/material/icon';
 import { Helper } from '@webilix/helper-library';
 import { JalaliDateTime, JalaliDateTimeCalendar, JalaliDateTimePeriod } from '@webilix/jalali-date-time';
 
-import { INgxCalendarConfig, NGX_CALENDAR_CONFIG } from '../../ngx-calendar.config';
 import { INgxCalendarWeek } from '../../ngx-calendar.interface';
 
 @Component({
@@ -25,8 +24,6 @@ export class NgxCalendarWeekComponent implements OnInit, OnChanges {
     public calendar!: JalaliDateTimeCalendar;
 
     private jalali = JalaliDateTime();
-
-    constructor(@Optional() @Inject(NGX_CALENDAR_CONFIG) public readonly config?: INgxCalendarConfig) {}
 
     ngOnInit(): void {
         this.initValues();

@@ -4,14 +4,21 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
-import { NgxCalendarDateComponent, NgxCalendarWeekComponent } from '../../components';
+import { NgxCalendarDateComponent, NgxCalendarMonthComponent, NgxCalendarWeekComponent } from '../../components';
 import { NgxCalendar } from '../../ngx-calendar.interface';
 
 import { IContainer } from '../container.interface';
 
 @Component({
     host: { selector: 'dialog' },
-    imports: [MatDialogModule, MatIconButton, MatIcon, NgxCalendarDateComponent, NgxCalendarWeekComponent],
+    imports: [
+        MatDialogModule,
+        MatIconButton,
+        MatIcon,
+        NgxCalendarDateComponent,
+        NgxCalendarWeekComponent,
+        NgxCalendarMonthComponent,
+    ],
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
 })
