@@ -3,10 +3,6 @@
 
     height: var(--height);
     width: min(var(--width), 100%);
-
-    mat-icon {
-        font-size: 18px;
-    }
 }
 
 content {
@@ -24,7 +20,6 @@ content {
         height: var(--height);
 
         cursor: pointer;
-        font-size: 14px;
         line-height: 45px;
         padding: 0 0.5rem;
         color: var(--primary);
@@ -41,7 +36,6 @@ content {
 
         cursor: pointer;
         padding: 0 1rem;
-        font-size: 14px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
