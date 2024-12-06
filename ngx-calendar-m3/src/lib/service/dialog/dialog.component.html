@@ -1,11 +1,11 @@
-<header mat-dialog-title>
+<header>
     <div class="title">{{ data.container.title }}</div>
     <button mat-icon-button type="button" (click)="closeContainer()">
         <mat-icon>close</mat-icon>
     </button>
 </header>
 
-<mat-dialog-content>
+<content>
     @switch (data.calendar) {
     <!-- DATE -->
     @case ('DATE') {
@@ -43,4 +43,4 @@
         (onChange)="closeContainer($event)"
     ></ngx-calendar-year>
     } }
-</mat-dialog-content>
+</content>

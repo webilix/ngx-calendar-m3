@@ -1,6 +1,7 @@
 header {
     display: flex;
     align-items: center;
+    padding: 0 1rem 0 0.5rem;
     border-bottom: 1px solid var(--outline-variant);
 
     .title {
@@ -9,4 +10,9 @@ header {
         line-height: 50px;
         font-size: 110%;
     }
+}
+
+::ng-deep .ngx-calendar-bottom-sheet .mat-bottom-sheet-container {
+    padding: 0;
+    overflow: hidden;
 }

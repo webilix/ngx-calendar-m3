@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -17,7 +17,6 @@ import { IContainer } from '../container.interface';
 @Component({
     host: { selector: 'dialog' },
     imports: [
-        MatDialogModule,
         MatIconButton,
         MatIcon,
         NgxCalendarDateComponent,

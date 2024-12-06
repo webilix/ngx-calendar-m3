@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 
 import { BottomSheetComponent, DialogComponent, IContainer } from './service';
 import {
@@ -38,19 +38,13 @@ class NgxCalendarClass<R /* RESPONSE */> {
         private readonly container: IContainer,
     ) {}
 
-    dialog(callback: (response: R) => void): void;
-    dialog(callback: (response: R) => void, config: MatDialogConfig): void;
-    dialog(callback: (response: R) => void, arg1?: any): void {
-        const config: MatDialogConfig = arg1 || {};
-
+    dialog(callback: (response: R) => void): void {
         this.matDialog
             .open<any, any, R>(DialogComponent, {
                 // DEFAULT CONFIG
                 direction: 'rtl',
                 enterAnimationDuration: '100ms',
                 exitAnimationDuration: '100ms',
-                // OVERWRITE CONFIG
-                ...config,
                 // DATA
                 data: { calendar: this.calendar, container: this.container },
             })
@@ -58,17 +52,12 @@ class NgxCalendarClass<R /* RESPONSE */> {
             .subscribe({ next: (response?: R) => response && callback(response) });
     }
 
-    bottomSheet(callback: (response: R) => void): void;
-    bottomSheet(callback: (response: R) => void, config: MatBottomSheetConfig): void;
-    bottomSheet(callback: (response: R) => void, arg1?: any): void {
-        const config: MatBottomSheetConfig = arg1 || {};
-
+    bottomSheet(callback: (response: R) => void): void {
         this.matBottomSheet
             .open<any, any, R>(BottomSheetComponent<R>, {
                 // DEFAULT CONFIG
                 direction: 'rtl',
-                // OVERWRITE CONFIG
-                ...config,
+                panelClass: 'ngx-calendar-bottom-sheet',
                 // DATA
                 data: { calendar: this.calendar, container: this.container },
             })
