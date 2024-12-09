@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatDialog } from '@angular/material/dialog';
+import { NgxHelperContainerService } from '@webilix/ngx-helper-m3';
 
-import { BottomSheetComponent, DialogComponent, IContainer } from './service';
+import { DialogComponent, IContainer } from './container';
 import {
     INgxCalendarDate,
     INgxCalendarMonth,
@@ -33,42 +32,10 @@ interface ICalendarYear extends Omit<ICalendar, 'value'> {
 class NgxCalendarClass<R /* RESPONSE */> {
     constructor(
         private readonly calendar: NgxCalendar,
-        private readonly matBottomSheet: MatBottomSheet,
-        private readonly matDialog: MatDialog,
         private readonly container: IContainer,
+        private readonly ngxHelperContainerService: NgxHelperContainerService,
+        private readonly title?: string,
     ) {}
-
-    dialog(callback: (response: R) => void): void {
-        this.matDialog
-            .open<any, any, R>(DialogComponent, {
-                // DEFAULT CONFIG
-                direction: 'rtl',
-                enterAnimationDuration: '100ms',
-                exitAnimationDuration: '100ms',
-                // DATA
-                data: { calendar: this.calendar, container: this.container },
-            })
-            .afterClosed()
-            .subscribe({ next: (response?: R) => response && callback(response) });
-    }
-
-    bottomSheet(callback: (response: R) => void): void {
-        this.matBottomSheet
-            .open<any, any, R>(BottomSheetComponent<R>, {
-                // DEFAULT CONFIG
-                direction: 'rtl',
-                panelClass: 'ngx-calendar-bottom-sheet',
-                // DATA
-                data: { calendar: this.calendar, container: this.container },
-            })
-            .afterDismissed()
-            .subscribe({ next: (response?: R) => response && callback(response) });
-    }
-}
-
-@Injectable({ providedIn: 'root' })
-export class NgxCalendarService {
-    constructor(private readonly matBottomSheet: MatBottomSheet, private readonly matDialog: MatDialog) {}
 
     private getTitle(calendar: NgxCalendar, title?: string): string {
         if (title) return title;
@@ -87,18 +54,40 @@ export class NgxCalendarService {
         }
     }
 
+    dialog(callback: (response: R) => void): void {
+        this.ngxHelperContainerService
+            .init(DialogComponent, this.getTitle(this.calendar, this.title), {
+                data: { calendar: this.calendar, container: this.container },
+                padding: '0',
+            })
+            .dialog<R>((response?: R) => response && callback(response));
+    }
+
+    bottomSheet(callback: (response: R) => void): void {
+        this.ngxHelperContainerService
+            .init(DialogComponent, this.getTitle(this.calendar, this.title), {
+                data: { calendar: this.calendar, container: this.container },
+                padding: '0',
+            })
+            .bottomSheet<R>((response?: R) => response && callback(response));
+    }
+}
+
+@Injectable({ providedIn: 'root' })
+export class NgxCalendarService {
+    constructor(private readonly ngxHelperContainerService: NgxHelperContainerService) {}
+
     getDate(): NgxCalendarClass<INgxCalendarDate>;
     getDate(options: Partial<ICalendarDate>): NgxCalendarClass<INgxCalendarDate>;
     getDate(arg1?: any): NgxCalendarClass<INgxCalendarDate> {
         const options: Partial<ICalendarDate> = arg1 || {};
         const container: IContainer = {
-            title: this.getTitle('DATE', options.title),
             value: options.value ? { from: options.value, to: options.value } : undefined,
             minDate: options.minDate,
             maxDate: options.maxDate,
         };
 
-        return new NgxCalendarClass<INgxCalendarDate>('DATE', this.matBottomSheet, this.matDialog, container);
+        return new NgxCalendarClass<INgxCalendarDate>('DATE', container, this.ngxHelperContainerService, options.title);
     }
 
     getWeek(): NgxCalendarClass<INgxCalendarWeek>;
@@ -106,7 +95,6 @@ export class NgxCalendarService {
     getWeek(arg1?: any): NgxCalendarClass<INgxCalendarWeek> {
         const options: Partial<ICalendarWeek> = arg1 || {};
         const container: IContainer = {
-            title: this.getTitle('WEEK', options.title),
             value: options.value
                 ? 'from' in options.value
                     ? options.value
@@ -116,7 +104,7 @@ export class NgxCalendarService {
             maxDate: options.maxDate,
         };
 
-        return new NgxCalendarClass<INgxCalendarWeek>('WEEK', this.matBottomSheet, this.matDialog, container);
+        return new NgxCalendarClass<INgxCalendarWeek>('WEEK', container, this.ngxHelperContainerService, options.title);
     }
 
     getMonth(): NgxCalendarClass<INgxCalendarMonth>;
@@ -124,7 +112,6 @@ export class NgxCalendarService {
     getMonth(arg1?: any): NgxCalendarClass<INgxCalendarMonth> {
         const options: Partial<ICalendarMonth> = arg1 || {};
         const container: IContainer = {
-            title: this.getTitle('MONTH', options.title),
             value: options.value
                 ? 'from' in options.value
                     ? options.value
@@ -134,7 +121,7 @@ export class NgxCalendarService {
             maxDate: options.maxDate,
         };
 
-        return new NgxCalendarClass<INgxCalendarMonth>('MONTH', this.matBottomSheet, this.matDialog, container);
+        return new NgxCalendarClass<INgxCalendarMonth>('MONTH', container, this.ngxHelperContainerService, options.title);
     }
 
     getYear(): NgxCalendarClass<INgxCalendarYear>;
@@ -142,7 +129,6 @@ export class NgxCalendarService {
     getYear(arg1?: any): NgxCalendarClass<INgxCalendarYear> {
         const options: Partial<ICalendarYear> = arg1 || {};
         const container: IContainer = {
-            title: this.getTitle('YEAR', options.title),
             value: options.value
                 ? 'from' in options.value
                     ? options.value
@@ -152,6 +138,6 @@ export class NgxCalendarService {
             maxDate: options.maxDate,
         };
 
-        return new NgxCalendarClass<INgxCalendarYear>('YEAR', this.matBottomSheet, this.matDialog, container);
+        return new NgxCalendarClass<INgxCalendarYear>('YEAR', container, this.ngxHelperContainerService, options.title);
     }
 }
