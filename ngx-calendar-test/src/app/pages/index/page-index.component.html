@@ -21,7 +21,7 @@
         <div class="component">
             <ngx-calendar-date [value]="date" (onChange)="setDate($event)"></ngx-calendar-date>
         </div>
-        <div class="value">{{ (date | ngxCalendatDate) || '&nbsp;' }}</div>
+        <div class="value">{{ date ? (date | ngxHelperDate) : '&nbsp;' }}</div>
         <div class="buttons">
             <button mat-flat-button type="button" (click)="getDate()">انتخاب تاریخ</button>
             <button mat-flat-button type="button" (click)="getDate('MIN')">حداقل</button>
@@ -40,7 +40,7 @@
         <div class="component">
             <ngx-calendar-week [value]="week" (onChange)="setWeek($event)"></ngx-calendar-week>
         </div>
-        <div class="value">{{ (week?.from | ngxCalendatWeek) || '&nbsp;' }}</div>
+        <div class="value">{{ week ? (week.from | ngxHelperDate : { format: 'WEEK' }) : '&nbsp;' }}</div>
         <div class="buttons">
             <button mat-flat-button type="button" (click)="getWeek()">انتخاب هفته</button>
             <button mat-flat-button type="button" (click)="getWeek('MIN')">حداقل</button>
@@ -61,7 +61,7 @@
         <div class="component">
             <ngx-calendar-month [value]="month" (onChange)="setMonth($event)"></ngx-calendar-month>
         </div>
-        <div class="value">{{ (month | ngxCalendatMonth) || '&nbsp;' }}</div>
+        <div class="value">{{ month ? (month.from | ngxHelperDate : { format: 'MONTH' }) : '&nbsp;' }}</div>
         <div class="buttons">
             <button mat-flat-button type="button" (click)="getMonth()">انتخاب ماه</button>
             <button mat-flat-button type="button" (click)="getMonth('MIN')">حداقل</button>
@@ -80,7 +80,7 @@
         <div class="component">
             <ngx-calendar-year [value]="year" (onChange)="setYear($event)"></ngx-calendar-year>
         </div>
-        <div class="value">{{ (year?.from | ngxCalendatDate : { format: 'Y' }) || '&nbsp;' }}</div>
+        <div class="value">{{ year ? (year.from | ngxHelperDate : { format: 'YEAR' }) : '&nbsp;' }}</div>
         <div class="buttons">
             <button mat-flat-button type="button" (click)="getYear()">انتخاب سال</button>
             <button mat-flat-button type="button" (click)="getYear('MIN')">حداقل</button>

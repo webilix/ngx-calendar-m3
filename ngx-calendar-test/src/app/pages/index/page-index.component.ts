@@ -14,10 +14,8 @@ import {
     NgxCalendarService,
     NgxCalendarWeekComponent,
     NgxCalendarYearComponent,
-    NgxCalendatDatePipe,
-    NgxCalendatMonthPipe,
-    NgxCalendatWeekPipe,
 } from '@webilix/ngx-calendar-m3';
+import { NgxHelperDatePipe } from '@webilix/ngx-helper-m3';
 
 type Container = 'DIALOG' | 'BOTTOMSHEET';
 
@@ -27,12 +25,10 @@ type Container = 'DIALOG' | 'BOTTOMSHEET';
         MatButton,
         NgxCalendarComponent,
         NgxCalendarDateComponent,
-        NgxCalendatDatePipe,
         NgxCalendarWeekComponent,
-        NgxCalendatWeekPipe,
         NgxCalendarMonthComponent,
-        NgxCalendatMonthPipe,
         NgxCalendarYearComponent,
+        NgxHelperDatePipe,
     ],
     templateUrl: './page-index.component.html',
     styleUrl: './page-index.component.scss',
