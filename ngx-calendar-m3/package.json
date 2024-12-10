@@ -1,6 +1,6 @@
 {
     "name": "@webilix/ngx-calendar-m3",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "author": "Ali Amirnezhad",
     "description": "Jalali calendar components for Angular and Material 3",
     "repository": {
