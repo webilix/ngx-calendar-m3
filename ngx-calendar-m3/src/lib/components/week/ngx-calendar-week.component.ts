@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 import { MatIconButton } from '@angular/material/button';
@@ -21,6 +21,8 @@ import { INgxCalendarWeek } from '../../ngx-calendar.interface';
     ],
 })
 export class NgxCalendarWeekComponent implements OnInit, OnChanges {
+    @HostBinding('className') private className: string = 'ngx-calendar-m3-week';
+
     @Input({ required: false }) value?: Date | { from: Date; to: Date };
     @Input({ required: false }) minDate?: Date;
     @Input({ required: false }) maxDate?: Date;

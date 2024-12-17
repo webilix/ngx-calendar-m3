@@ -1,93 +1,85 @@
-<content>
-    <!-- CALENDAR -->
-    @if (calendars.length > 1) {
-    <section class="calendars" [matMenuTriggerFor]="calendarMenu">
-        <span>{{ calendarTitle }}</span>
-        <mat-icon>keyboard_arrow_down</mat-icon>
+<!-- CALENDAR -->
+@if (calendars.length > 1) {
+<section class="calendars" [matMenuTriggerFor]="calendarMenu">
+    <span>{{ calendarTitle }}</span>
+    <mat-icon>keyboard_arrow_down</mat-icon>
 
-        <mat-menu #calendarMenu="matMenu" [xPosition]="'before'">
-            @for (item of calendarsList; track $index) {
-            <!-- CALENDAR TYPE -->
-            @if (calendars.includes(item.calendar)) {
-            <button
-                mat-menu-item
-                (click)="setCalendar(item.calendar)"
-                [style.text-align]="'right'"
-                [dir]="'rtl'"
-                [disabled]="item.calendar === calendar"
-            >
-                <mat-icon [style.margin-right]="'0'" [style.margin-left]="'0.5rem'" [style.font-size]="'18px'">
-                    {{ item.icon }}
-                </mat-icon>
-                <span>{{ item.title }}</span>
-            </button>
-            } }
-        </mat-menu>
-    </section>
-    }
-
-    <!-- DAY, WEEK, MONTH, YEAR -->
-    @if (calendar === 'DATE' || calendar === 'WEEK' || calendar === 'MONTH' || calendar === 'YEAR') {
-    <section
-        class="value"
-        (click)="
-            calendar === 'DATE' ? getDate() : calendar === 'WEEK' ? getWeek() : calendar === 'MONTH' ? getMonth() : getYear()
-        "
-    >
-        {{ periodTitle }}
-    </section>
-
-    <section class="buttons">
-        <button mat-icon-button type="button" [disabled]="!previous.active" (click)="setPrevious()">
-            <mat-icon>chevron_right</mat-icon>
-        </button>
-        <button mat-icon-button type="button" [disabled]="!next.active" (click)="setNext()">
-            <mat-icon>chevron_left</mat-icon>
-        </button>
-        @switch (calendar) {
-        <!-- DATE -->
-        @case ('DATE') {
-        <button mat-icon-button type="button" (click)="getDate()">
-            <mat-icon>today</mat-icon>
-        </button>
-        }
-
-        <!-- WEEK -->
-        @case ('WEEK') {
-        <button mat-icon-button type="button" (click)="getWeek()">
-            <mat-icon>date_range</mat-icon>
-        </button>
-        }
-
-        <!-- MONTH -->
-        @case ('MONTH') {
-        <button mat-icon-button type="button" (click)="getMonth()">
-            <mat-icon>calendar_month</mat-icon>
-        </button>
-        }
-
-        <!-- YEAR -->
-        @case ('YEAR') {
-        <button mat-icon-button type="button" (click)="getYear()">
-            <mat-icon>calendar_today</mat-icon>
+    <mat-menu #calendarMenu="matMenu" class="ngx-calendar-menu">
+        @for (item of calendarsList; track $index) {
+        <!-- CALENDAR TYPE -->
+        @if (calendars.includes(item.calendar)) {
+        <button mat-menu-item (click)="setCalendar(item.calendar)" [disabled]="item.calendar === calendar">
+            <mat-icon [style.margin-right]="'0'" [style.margin-left]="'0.5rem'" [style.font-size]="'18px'">
+                {{ item.icon }}
+            </mat-icon>
+            <span>{{ item.title }}</span>
         </button>
         } }
-    </section>
+    </mat-menu>
+</section>
+}
+
+<!-- DAY, WEEK, MONTH, YEAR -->
+@if (calendar === 'DATE' || calendar === 'WEEK' || calendar === 'MONTH' || calendar === 'YEAR') {
+<section
+    class="title"
+    (click)="
+        calendar === 'DATE' ? getDate() : calendar === 'WEEK' ? getWeek() : calendar === 'MONTH' ? getMonth() : getYear()
+    "
+>
+    {{ periodTitle }}
+</section>
+
+<section class="buttons">
+    <button mat-icon-button type="button" [disabled]="!previous.active" (click)="setPrevious()">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button mat-icon-button type="button" [disabled]="!next.active" (click)="setNext()">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+    @switch (calendar) {
+    <!-- DATE -->
+    @case ('DATE') {
+    <button mat-icon-button type="button" (click)="getDate()">
+        <mat-icon>today</mat-icon>
+    </button>
     }
 
-    <!-- PERIOD -->
-    @if (calendar === 'PERIOD') {
-    <section class="value" (click)="getPeriodFrom()">{{ periodTitle[0] }}</section>
-    <section class="buttons square">
-        <button mat-icon-button type="button" (click)="getPeriodFrom()">
-            <mat-icon>today</mat-icon>
-        </button>
-    </section>
-    <section class="value" (click)="getPeriodTo()">{{ periodTitle[1] }}</section>
-    <section class="buttons">
-        <button mat-icon-button type="button" (click)="getPeriodTo()">
-            <mat-icon>today</mat-icon>
-        </button>
-    </section>
+    <!-- WEEK -->
+    @case ('WEEK') {
+    <button mat-icon-button type="button" (click)="getWeek()">
+        <mat-icon>date_range</mat-icon>
+    </button>
     }
-</content>
+
+    <!-- MONTH -->
+    @case ('MONTH') {
+    <button mat-icon-button type="button" (click)="getMonth()">
+        <mat-icon>calendar_month</mat-icon>
+    </button>
+    }
+
+    <!-- YEAR -->
+    @case ('YEAR') {
+    <button mat-icon-button type="button" (click)="getYear()">
+        <mat-icon>calendar_today</mat-icon>
+    </button>
+    } }
+</section>
+}
+
+<!-- PERIOD -->
+@if (calendar === 'PERIOD') {
+<section class="title" (click)="getPeriodFrom()">{{ periodTitle[0] }}</section>
+<section class="buttons square">
+    <button mat-icon-button type="button" (click)="getPeriodFrom()">
+        <mat-icon>today</mat-icon>
+    </button>
+</section>
+<section class="title" (click)="getPeriodTo()">{{ periodTitle[1] }}</section>
+<section class="buttons">
+    <button mat-icon-button type="button" (click)="getPeriodTo()">
+        <mat-icon>today</mat-icon>
+    </button>
+</section>
+}

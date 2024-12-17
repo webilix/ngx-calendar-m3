@@ -14,16 +14,19 @@
 @use '../../ngx-calendar-m3/ngx-calendar-m3.css';
 
 // Global Styles
+* {
+    font-family: Yekan;
+}
+
 html,
 body {
-    color: var(--on-surface);
-    background-color: var(--surface-container-low);
+    color: var(--on-background);
+    background-color: var(--background);
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Yekan;
 }
 
 .en {

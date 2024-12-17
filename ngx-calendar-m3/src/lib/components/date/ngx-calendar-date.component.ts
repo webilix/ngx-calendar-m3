@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 import { MatIconButton } from '@angular/material/button';
@@ -20,6 +20,8 @@ import { INgxCalendarDate } from '../../ngx-calendar.interface';
     ],
 })
 export class NgxCalendarDateComponent implements OnInit, OnChanges {
+    @HostBinding('className') private className: string = 'ngx-calendar-m3-date';
+
     @Input({ required: false }) value?: Date;
     @Input({ required: false }) minDate?: Date;
     @Input({ required: false }) maxDate?: Date;

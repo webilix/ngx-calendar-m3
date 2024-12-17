@@ -25,8 +25,9 @@ import { NgxCalendarService } from './ngx-calendar.service';
     styleUrl: './ngx-calendar.component.scss',
 })
 export class NgxCalendarComponent implements OnInit {
-    @HostBinding('style.--width') cssWidth = '';
-    @HostBinding('style.--height') cssHeight = '';
+    @HostBinding('className') private className: string = 'ngx-calendar-m3';
+    @HostBinding('style.--ngx-calendar-m3-width') cssWidth = '';
+    @HostBinding('style.--ngx-calendar-m3-height') cssHeight = '';
 
     @Input({ required: true }) calendars!: NgxCalendar[];
     @Input({ required: false }) minDate?: Date;

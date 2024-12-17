@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -14,6 +14,8 @@ import { INgxCalendarYear } from '../../ngx-calendar.interface';
     styleUrl: './ngx-calendar-year.component.scss',
 })
 export class NgxCalendarYearComponent implements OnInit, OnChanges {
+    @HostBinding('className') private className: string = 'ngx-calendar-m3-year';
+
     @Input({ required: false }) value?: Date | { from: Date; to: Date };
     @Input({ required: false }) minDate?: Date;
     @Input({ required: false }) maxDate?: Date;
