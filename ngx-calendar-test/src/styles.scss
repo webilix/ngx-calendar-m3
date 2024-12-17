@@ -7,6 +7,12 @@
 @use './theme/material/theme-m3';
 @use './theme/material/override';
 
+// NGX
+@use '../../node_modules/@webilix/ngx-helper-m3/ngx-helper-m3.css';
+
+// NGX-CALENDAR-M3
+@use '../../ngx-calendar-m3/ngx-calendar-m3.css';
+
 // Global Styles
 html,
 body {
@@ -38,4 +44,10 @@ body {
 
 body.dark .cdk-overlay-backdrop {
     background-color: rgba(255, 255, 255, 0.25);
+}
+
+.mat-bottom-sheet-container-medium,
+.mat-bottom-sheet-container-large,
+.mat-bottom-sheet-container-xlarge {
+    max-width: 450px !important;
 }

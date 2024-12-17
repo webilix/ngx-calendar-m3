@@ -1,4 +1,9 @@
 :host {
     display: block;
     overflow: hidden;
+
+    content {
+        box-sizing: border-box;
+        overflow: hidden;
+    }
 }

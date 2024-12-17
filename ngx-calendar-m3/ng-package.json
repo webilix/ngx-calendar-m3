@@ -3,5 +3,6 @@
     "dest": "../dist/ngx-calendar-m3",
     "lib": {
         "entryFile": "src/public-api.ts"
-    }
+    },
+    "assets": ["ngx-calendar-m3.css"]
 }
