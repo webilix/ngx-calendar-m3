@@ -1,4 +1,4 @@
-<header>
+<div class="calendar-header">
     <div class="title">{{ years[0] }} - {{ years[years.length - 1] }}</div>
 
     <button mat-icon-button type="button" (click)="changeYear(years[0] - 1)">
@@ -10,10 +10,10 @@
     <button mat-icon-button type="button" (click)="changeYear(years[years.length - 1] + 1)">
         <mat-icon>chevron_left</mat-icon>
     </button>
-</header>
+</div>
 
 <!-- YEARS -->
-<content>
+<div class="calendar-content">
     @for (year of years; track $index) {
     <div
         class="year"
@@ -29,4 +29,4 @@
         {{ year }}
     </div>
     }
-</content>
+</div>

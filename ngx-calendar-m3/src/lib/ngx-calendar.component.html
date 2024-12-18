@@ -1,6 +1,6 @@
 <!-- CALENDAR -->
 @if (calendars.length > 1) {
-<section class="calendars" [matMenuTriggerFor]="calendarMenu">
+<div class="calendar-types" [matMenuTriggerFor]="calendarMenu">
     <span>{{ calendarTitle }}</span>
     <mat-icon>keyboard_arrow_down</mat-icon>
 
@@ -16,21 +16,21 @@
         </button>
         } }
     </mat-menu>
-</section>
+</div>
 }
 
 <!-- DAY, WEEK, MONTH, YEAR -->
 @if (calendar === 'DATE' || calendar === 'WEEK' || calendar === 'MONTH' || calendar === 'YEAR') {
-<section
-    class="title"
+<div
+    class="calendar-title"
     (click)="
         calendar === 'DATE' ? getDate() : calendar === 'WEEK' ? getWeek() : calendar === 'MONTH' ? getMonth() : getYear()
     "
 >
     {{ periodTitle }}
-</section>
+</div>
 
-<section class="buttons">
+<div class="calendar-buttons">
     <button mat-icon-button type="button" [disabled]="!previous.active" (click)="setPrevious()">
         <mat-icon>chevron_right</mat-icon>
     </button>
@@ -65,21 +65,21 @@
         <mat-icon>calendar_today</mat-icon>
     </button>
     } }
-</section>
+</div>
 }
 
 <!-- PERIOD -->
 @if (calendar === 'PERIOD') {
-<section class="title" (click)="getPeriodFrom()">{{ periodTitle[0] }}</section>
-<section class="buttons square">
+<div class="calendar-title" (click)="getPeriodFrom()">{{ periodTitle[0] }}</div>
+<div class="calendar-buttons square">
     <button mat-icon-button type="button" (click)="getPeriodFrom()">
         <mat-icon>today</mat-icon>
     </button>
-</section>
-<section class="title" (click)="getPeriodTo()">{{ periodTitle[1] }}</section>
-<section class="buttons">
+</div>
+<div class="calendar-title" (click)="getPeriodTo()">{{ periodTitle[1] }}</div>
+<div class="calendar-buttons">
     <button mat-icon-button type="button" (click)="getPeriodTo()">
         <mat-icon>today</mat-icon>
     </button>
-</section>
+</div>
 }

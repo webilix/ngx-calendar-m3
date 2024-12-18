@@ -1,4 +1,4 @@
-<header>
+<div class="calendar-header">
     <button mat-icon-button type="button" (click)="toggleView()">
         <mat-icon>{{ view === 'CALENDAR' ? 'calendar_month' : 'close' }}</mat-icon>
     </button>
@@ -19,9 +19,9 @@
     <button mat-icon-button type="button" (click)="view === 'CALENDAR' ? changeMonth(12) : changeYear(year + 10)">
         <mat-icon>keyboard_double_arrow_left</mat-icon>
     </button>
-</header>
+</div>
 
-<nav>
+<div class="calendar-nav">
     @switch (view) {
     <!-- CALENDAR -->
     @case ('CALENDAR') {
@@ -33,9 +33,9 @@
     @for (item of years; track $index) {
     <div class="item click" (click)="changeYear(item)">{{ item }}</div>
     } } }
-</nav>
+</div>
 
-<content>
+<div class="calendar-content">
     <!-- CALENDAR VIEW -->
     <section class="calendar-view" [style.visibility]="view === 'CALENDAR' ? 'visible' : 'hidden'">
         <!-- WEEK -->
@@ -87,4 +87,4 @@
         }
     </section>
     }
-</content>
+</div>

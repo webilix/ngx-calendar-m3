@@ -1,4 +1,4 @@
-<header>
+<div class="calendar-header">
     <div class="title">{{ year }}</div>
 
     <button mat-icon-button type="button" (click)="changeYear(year - 10)">
@@ -16,17 +16,17 @@
     <button mat-icon-button type="button" (click)="changeYear(year + 12)">
         <mat-icon>keyboard_double_arrow_left</mat-icon>
     </button>
-</header>
+</div>
 
-<nav>
+<div class="calendar-nav">
     @for (item of years; track $index) {
     <div class="item click" (click)="changeYear(item)">{{ item }}</div>
     }
-</nav>
+</div>
 
 <!-- SEASON -->
 @for (season of seasons; track $index) {
-<content>
+<div class="calendar-content">
     <!-- MONTH -->
     @for (month of season; track $index) {
     <div
@@ -45,5 +45,5 @@
         {{ month.title }}
     </div>
     }
-</content>
+</div>
 }
