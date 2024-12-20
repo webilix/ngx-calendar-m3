@@ -54,22 +54,26 @@ class NgxCalendarClass<R /* RESPONSE */> {
         }
     }
 
-    dialog(callback: (response: R) => void): void {
+    dialog(onResponse: (response: R) => void): void;
+    dialog(onResponse: (response: R) => void, onDismiss: () => void): void;
+    dialog(onResponse: (response: R) => void, onDismiss?: () => void): void {
         this.ngxHelperContainerService
             .init(DialogComponent, this.getTitle(this.calendar, this.title), {
                 data: { calendar: this.calendar, container: this.container },
                 padding: '0',
             })
-            .dialog<R>((response?: R) => response && callback(response));
+            .dialog<R>(onResponse, onDismiss || (() => {}));
     }
 
-    bottomSheet(callback: (response: R) => void): void {
+    bottomSheet(onResponse: (response: R) => void): void;
+    bottomSheet(onResponse: (response: R) => void, onDismiss: () => void): void;
+    bottomSheet(onResponse: (response: R) => void, onDismiss?: () => void): void {
         this.ngxHelperContainerService
             .init(DialogComponent, this.getTitle(this.calendar, this.title), {
                 data: { calendar: this.calendar, container: this.container },
                 padding: '0',
             })
-            .bottomSheet<R>((response?: R) => response && callback(response));
+            .bottomSheet<R>(onResponse, onDismiss || (() => {}));
     }
 }
 

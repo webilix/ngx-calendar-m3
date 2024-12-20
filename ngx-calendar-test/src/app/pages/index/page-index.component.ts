@@ -53,12 +53,14 @@ export class PageIndexComponent {
             maxDate: type === 'MAX' ? new Date() : undefined,
         });
 
+        const onResponse = (value: INgxCalendarDate) => (this.date = value.date);
+        const onDismiss = () => console.log('DISMISSED');
         switch (this.dateContainer) {
             case 'DIALOG':
-                date.dialog((value) => (this.date = value.date));
+                date.dialog(onResponse, onDismiss);
                 break;
             case 'BOTTOMSHEET':
-                date.bottomSheet((value) => (this.date = value.date));
+                date.bottomSheet(onResponse, onDismiss);
                 break;
         }
     }
@@ -79,12 +81,14 @@ export class PageIndexComponent {
             maxDate: type === 'MAX' ? new Date() : undefined,
         });
 
+        const onResponse = (value: INgxCalendarWeek) => (this.week = value.period);
+        const onDismiss = () => console.log('DISMISSED');
         switch (this.weekContainer) {
             case 'DIALOG':
-                week.dialog((value) => (this.week = value.period));
+                week.dialog(onResponse, onDismiss);
                 break;
             case 'BOTTOMSHEET':
-                week.bottomSheet((value) => (this.week = value.period));
+                week.bottomSheet(onResponse, onDismiss);
                 break;
         }
     }
@@ -105,12 +109,14 @@ export class PageIndexComponent {
             maxDate: type === 'MAX' ? new Date() : undefined,
         });
 
+        const onResponse = (value: INgxCalendarMonth) => (this.month = value.period);
+        const onDismiss = () => console.log('DISMISSED');
         switch (this.monthContainer) {
             case 'DIALOG':
-                month.dialog((value) => (this.month = value.period));
+                month.dialog(onResponse, onDismiss);
                 break;
             case 'BOTTOMSHEET':
-                month.bottomSheet((value) => (this.month = value.period));
+                month.bottomSheet(onResponse, onDismiss);
                 break;
         }
     }
@@ -131,12 +137,14 @@ export class PageIndexComponent {
             maxDate: type === 'MAX' ? new Date() : undefined,
         });
 
+        const onResponse = (value: INgxCalendarYear) => (this.year = value.period);
+        const onDismiss = () => console.log('DISMISSED');
         switch (this.yearContainer) {
             case 'DIALOG':
-                year.dialog((value) => (this.year = value.period));
+                year.dialog(onResponse, onDismiss);
                 break;
             case 'BOTTOMSHEET':
-                year.bottomSheet((value) => (this.year = value.period));
+                year.bottomSheet(onResponse, onDismiss);
                 break;
         }
     }
