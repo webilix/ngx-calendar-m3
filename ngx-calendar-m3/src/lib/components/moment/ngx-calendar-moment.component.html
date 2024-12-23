@@ -4,7 +4,7 @@
 
     @if (value) {
     <button mat-button type="button" class="value" [matMenuTriggerFor]="minuteMenu" [disabled]="!value">{{ minute }}</button>
-    <mat-menu #minuteMenu="matMenu" [yPosition]="'above'" class="ngx-calendar-m3-date-time-minute">
+    <mat-menu #minuteMenu="matMenu" [yPosition]="'above'" class="ngx-calendar-m3-moment-minute">
         @for (minute of minutes; track $index) {
         <button mat-menu-item (click)="setMinute(minute)" [disabled]="!checkMinute(minute)">
             <span class="minute">{{ minute }}</span>
@@ -15,7 +15,7 @@
     <div class="colon" [style.opacity]="value ? 1 : 0.5">:</div>
 
     <button mat-button type="button" class="value" [matMenuTriggerFor]="hourMenu" [disabled]="!value">{{ hour }}</button>
-    <mat-menu #hourMenu="matMenu" [yPosition]="'above'" class="ngx-calendar-m3-date-time-hour">
+    <mat-menu #hourMenu="matMenu" [yPosition]="'above'" class="ngx-calendar-m3-moment-hour">
         @for (hour of hours; track $index) {
         <button mat-menu-item (click)="setHour(hour)" [disabled]="!checkHour(hour)">
             <span class="hour">{{ hour }}</span>

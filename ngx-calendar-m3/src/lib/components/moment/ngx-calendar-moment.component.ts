@@ -6,23 +6,23 @@ import { MatMenuModule } from '@angular/material/menu';
 import { JalaliDateTime } from '@webilix/jalali-date-time';
 import { NgxHelperDatePipe } from '@webilix/ngx-helper-m3';
 
-import { INgxCalendarDate, INgxCalendarDateTime } from '../../ngx-calendar.interface';
+import { INgxCalendarDate, INgxCalendarMoment } from '../../ngx-calendar.interface';
 
 import { NgxCalendarDateComponent } from '../date/ngx-calendar-date.component';
 
 @Component({
-    selector: 'ngx-calendar-date-time',
+    selector: 'ngx-calendar-moment',
     imports: [MatButton, MatMenuModule, NgxHelperDatePipe, NgxCalendarDateComponent],
-    templateUrl: './ngx-calendar-date-time.component.html',
-    styleUrl: './ngx-calendar-date-time.component.scss',
+    templateUrl: './ngx-calendar-moment.component.html',
+    styleUrl: './ngx-calendar-moment.component.scss',
 })
-export class NgxCalendarDateTimeComponent implements OnInit, OnChanges {
-    @HostBinding('className') private className: string = 'ngx-calendar-m3-date-time';
+export class NgxCalendarMomentComponent implements OnInit, OnChanges {
+    @HostBinding('className') private className: string = 'ngx-calendar-m3-moment';
 
     @Input({ required: false }) value?: Date;
     @Input({ required: false }) minDate?: Date;
     @Input({ required: false }) maxDate?: Date;
-    @Output() onChange: EventEmitter<INgxCalendarDateTime> = new EventEmitter<INgxCalendarDateTime>();
+    @Output() onChange: EventEmitter<INgxCalendarMoment> = new EventEmitter<INgxCalendarMoment>();
 
     public canSubmit: boolean = false;
     public dateString!: string;
@@ -137,9 +137,9 @@ export class NgxCalendarDateTimeComponent implements OnInit, OnChanges {
     onSubmit(): void {
         if (!this.value || !this.canSubmit) return;
 
-        const date: Date = new Date(this.value.getTime());
-        const title: string = this.jalali.toFullText(date, { format: 'W، d N Y' });
-        const jalali: string = this.formatDate(date);
-        this.onChange.next({ date, title, jalali });
+        const moment: Date = new Date(this.value.getTime());
+        const title: string = this.jalali.toFullText(moment, { format: 'W، d N Y H:I' });
+        const jalali: string = this.formatDate(moment);
+        this.onChange.next({ moment, title, jalali });
     }
 }

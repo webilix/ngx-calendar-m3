@@ -5,13 +5,13 @@ import { MatButton } from '@angular/material/button';
 import {
     INgxCalendar,
     INgxCalendarDate,
-    INgxCalendarDateTime,
+    INgxCalendarMoment,
     INgxCalendarMonth,
     INgxCalendarWeek,
     INgxCalendarYear,
     NgxCalendarComponent,
     NgxCalendarDateComponent,
-    NgxCalendarDateTimeComponent,
+    NgxCalendarMomentComponent,
     NgxCalendarMonthComponent,
     NgxCalendarService,
     NgxCalendarWeekComponent,
@@ -26,8 +26,8 @@ type Container = 'DIALOG' | 'BOTTOMSHEET';
     imports: [
         MatButton,
         NgxCalendarComponent,
+        NgxCalendarMomentComponent,
         NgxCalendarDateComponent,
-        NgxCalendarDateTimeComponent,
         NgxCalendarWeekComponent,
         NgxCalendarMonthComponent,
         NgxCalendarYearComponent,
@@ -44,6 +44,34 @@ export class PageIndexComponent {
     setCalendar(calendar: INgxCalendar): void {
         console.log('CALENDAR CHANGE:', calendar);
     }
+
+    //#region MOMENT
+    public moment?: Date;
+    public momentContainer: Container = 'DIALOG';
+
+    getMoment(type?: 'MIN' | 'MAX'): void {
+        const moment = this.ngxCalendarService.getMoment({
+            value: this.moment,
+            minDate: type === 'MIN' ? new Date() : undefined,
+            maxDate: type === 'MAX' ? new Date() : undefined,
+        });
+
+        const onResponse = (value: INgxCalendarMoment) => (this.moment = value.moment);
+        const onDismiss = () => console.log('DISMISSED');
+        switch (this.momentContainer) {
+            case 'DIALOG':
+                moment.dialog(onResponse, onDismiss);
+                break;
+            case 'BOTTOMSHEET':
+                moment.bottomSheet(onResponse, onDismiss);
+                break;
+        }
+    }
+
+    setMoment(value: INgxCalendarMoment): void {
+        this.moment = value.moment;
+    }
+    //#endregion
 
     //#region DATE
     public date?: Date;
@@ -70,34 +98,6 @@ export class PageIndexComponent {
 
     setDate(value: INgxCalendarDate): void {
         this.date = value.date;
-    }
-    //#endregion
-
-    //#region DATE TIME
-    public dateTime?: Date;
-    public dateTimeContainer: Container = 'DIALOG';
-
-    getDateTime(type?: 'MIN' | 'MAX'): void {
-        const dateTime = this.ngxCalendarService.getDateTime({
-            value: this.dateTime,
-            minDate: type === 'MIN' ? new Date() : undefined,
-            maxDate: type === 'MAX' ? new Date() : undefined,
-        });
-
-        const onResponse = (value: INgxCalendarDateTime) => (this.dateTime = value.date);
-        const onDismiss = () => console.log('DISMISSED');
-        switch (this.dateTimeContainer) {
-            case 'DIALOG':
-                dateTime.dialog(onResponse, onDismiss);
-                break;
-            case 'BOTTOMSHEET':
-                dateTime.bottomSheet(onResponse, onDismiss);
-                break;
-        }
-    }
-
-    setDateTime(value: INgxCalendarDateTime): void {
-        this.dateTime = value.date;
     }
     //#endregion
 

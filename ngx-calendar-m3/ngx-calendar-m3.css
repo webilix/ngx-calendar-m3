@@ -141,8 +141,8 @@
     }
 }
 
-/* DATE-TIME CONTENT */
-.ngx-calendar-m3-date-time {
+/* MOMENT CONTENT */
+.ngx-calendar-m3-moment {
     display: block;
     direction: rtl;
 

@@ -6,13 +6,13 @@ export interface INgxCalendar {
     readonly title: string;
 }
 
-export interface INgxCalendarDate {
-    readonly date: Date;
+export interface INgxCalendarMoment {
+    readonly moment: Date;
     readonly title: string;
     readonly jalali: string;
 }
 
-export interface INgxCalendarDateTime {
+export interface INgxCalendarDate {
     readonly date: Date;
     readonly title: string;
     readonly jalali: string;

@@ -1,5 +1,14 @@
 <content>
     @switch (data.calendar) {
+    <!-- MOMENT -->
+    @case ('MOMENT') {
+    <ngx-calendar-moment
+        [value]="data.container.value?.from"
+        [minDate]="data.container.minDate"
+        [maxDate]="data.container.maxDate"
+        (onChange)="closeContainer($event)"
+    ></ngx-calendar-moment>
+    }
     <!-- DATE -->
     @case ('DATE') {
     <ngx-calendar-date
@@ -8,15 +17,6 @@
         [maxDate]="data.container.maxDate"
         (onChange)="closeContainer($event)"
     ></ngx-calendar-date>
-    }
-    <!-- DATE-TIME -->
-    @case ('DATE-TIME') {
-    <ngx-calendar-date-time
-        [value]="data.container.value?.from"
-        [minDate]="data.container.minDate"
-        [maxDate]="data.container.maxDate"
-        (onChange)="closeContainer($event)"
-    ></ngx-calendar-date-time>
     }
     <!-- WEEK -->
     @case ('WEEK') {

@@ -9,23 +9,23 @@
     ></ngx-calendar>
 </div>
 
-<!-- DATE -->
+<!-- MOMENT -->
 <div class="calendars">
     <section>
         <header>
-            <div class="title">DATE TIME</div>
-            <button mat-button (click)="dateTimeContainer = dateTimeContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG'">
-                {{ dateTimeContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG' }}
+            <div class="title">MOMENT</div>
+            <button mat-button (click)="momentContainer = momentContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG'">
+                {{ momentContainer === 'DIALOG' ? 'BOTTOMSHEET' : 'DIALOG' }}
             </button>
         </header>
         <div class="component">
-            <ngx-calendar-date-time [value]="dateTime" (onChange)="setDateTime($event)"></ngx-calendar-date-time>
+            <ngx-calendar-moment [value]="moment" (onChange)="setMoment($event)"></ngx-calendar-moment>
         </div>
-        <div class="value">{{ dateTime ? (dateTime | ngxHelperDate : { format: 'FULL' }) : '&nbsp;' }}</div>
+        <div class="value">{{ moment ? (moment | ngxHelperDate : { format: 'FULL' }) : '&nbsp;' }}</div>
         <div class="buttons">
-            <button mat-flat-button type="button" (click)="getDateTime()">انتخاب تاریخ</button>
-            <button mat-flat-button type="button" (click)="getDateTime('MIN')">حداقل</button>
-            <button mat-flat-button type="button" (click)="getDateTime('MAX')">حداکثر</button>
+            <button mat-flat-button type="button" (click)="getMoment()">انتخاب زمان</button>
+            <button mat-flat-button type="button" (click)="getMoment('MIN')">حداقل</button>
+            <button mat-flat-button type="button" (click)="getMoment('MAX')">حداکثر</button>
         </div>
     </section>
 </div>

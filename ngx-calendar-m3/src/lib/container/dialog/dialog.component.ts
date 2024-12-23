@@ -4,7 +4,7 @@ import { NGX_HELPER_CONTAINER_CLOSE, NGX_HELPER_CONTAINER_DATA } from '@webilix/
 
 import {
     NgxCalendarDateComponent,
-    NgxCalendarDateTimeComponent,
+    NgxCalendarMomentComponent,
     NgxCalendarMonthComponent,
     NgxCalendarWeekComponent,
     NgxCalendarYearComponent,
@@ -16,8 +16,8 @@ import { IContainer } from '../container.interface';
 @Component({
     host: { selector: 'dialog' },
     imports: [
+        NgxCalendarMomentComponent,
         NgxCalendarDateComponent,
-        NgxCalendarDateTimeComponent,
         NgxCalendarWeekComponent,
         NgxCalendarMonthComponent,
         NgxCalendarYearComponent,
@@ -26,6 +26,6 @@ import { IContainer } from '../container.interface';
     styleUrl: './dialog.component.scss',
 })
 export class DialogComponent<R> {
-    public data: { calendar: NgxCalendar | 'DATE-TIME'; container: IContainer } = inject(NGX_HELPER_CONTAINER_DATA);
+    public data: { calendar: NgxCalendar | 'MOMENT'; container: IContainer } = inject(NGX_HELPER_CONTAINER_DATA);
     public closeContainer = inject(NGX_HELPER_CONTAINER_CLOSE);
 }

@@ -5,7 +5,7 @@ import { NgxHelperContainerService } from '@webilix/ngx-helper-m3';
 import { DialogComponent, IContainer } from './container';
 import {
     INgxCalendarDate,
-    INgxCalendarDateTime,
+    INgxCalendarMoment,
     INgxCalendarMonth,
     INgxCalendarWeek,
     INgxCalendarYear,
@@ -19,9 +19,9 @@ interface ICalendar {
     readonly maxDate: Date;
 }
 
-interface ICalendarDate extends ICalendar {}
+interface ICalendarMoment extends ICalendar {}
 
-interface ICalendarDateTime extends ICalendar {}
+interface ICalendarDate extends ICalendar {}
 
 interface ICalendarWeek extends Omit<ICalendar, 'value'> {
     readonly value: Date | { readonly from: Date; readonly to: Date };
@@ -35,19 +35,19 @@ interface ICalendarYear extends Omit<ICalendar, 'value'> {
 
 class NgxCalendarClass<R /* RESPONSE */> {
     constructor(
-        private readonly calendar: NgxCalendar | 'DATE-TIME',
+        private readonly calendar: NgxCalendar | 'MOMENT',
         private readonly container: IContainer,
         private readonly ngxHelperContainerService: NgxHelperContainerService,
         private readonly title?: string,
     ) {}
 
-    private getTitle(calendar: NgxCalendar | 'DATE-TIME', title?: string): string {
+    private getTitle(calendar: NgxCalendar | 'MOMENT', title?: string): string {
         if (title) return title;
 
         switch (calendar) {
             case 'DATE':
                 return 'انتخاب تاریخ';
-            case 'DATE-TIME':
+            case 'MOMENT':
                 return 'انتخاب زمان';
             case 'WEEK':
                 return 'انتخاب هفته';
@@ -100,22 +100,17 @@ export class NgxCalendarService {
         return new NgxCalendarClass<INgxCalendarDate>('DATE', container, this.ngxHelperContainerService, options.title);
     }
 
-    getDateTime(): NgxCalendarClass<INgxCalendarDateTime>;
-    getDateTime(options: Partial<ICalendarDateTime>): NgxCalendarClass<INgxCalendarDateTime>;
-    getDateTime(arg1?: any): NgxCalendarClass<INgxCalendarDateTime> {
-        const options: Partial<ICalendarDateTime> = arg1 || {};
+    getMoment(): NgxCalendarClass<INgxCalendarMoment>;
+    getMoment(options: Partial<ICalendarMoment>): NgxCalendarClass<INgxCalendarMoment>;
+    getMoment(arg1?: any): NgxCalendarClass<INgxCalendarMoment> {
+        const options: Partial<ICalendarMoment> = arg1 || {};
         const container: IContainer = {
             value: options.value ? { from: options.value, to: options.value } : undefined,
             minDate: options.minDate,
             maxDate: options.maxDate,
         };
 
-        return new NgxCalendarClass<INgxCalendarDateTime>(
-            'DATE-TIME',
-            container,
-            this.ngxHelperContainerService,
-            options.title,
-        );
+        return new NgxCalendarClass<INgxCalendarMoment>('MOMENT', container, this.ngxHelperContainerService, options.title);
     }
 
     getWeek(): NgxCalendarClass<INgxCalendarWeek>;
