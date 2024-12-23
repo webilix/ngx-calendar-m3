@@ -5,6 +5,7 @@ import { NgxHelperContainerService } from '@webilix/ngx-helper-m3';
 import { DialogComponent, IContainer } from './container';
 import {
     INgxCalendarDate,
+    INgxCalendarDateTime,
     INgxCalendarMonth,
     INgxCalendarWeek,
     INgxCalendarYear,
@@ -19,6 +20,9 @@ interface ICalendar {
 }
 
 interface ICalendarDate extends ICalendar {}
+
+interface ICalendarDateTime extends ICalendar {}
+
 interface ICalendarWeek extends Omit<ICalendar, 'value'> {
     readonly value: Date | { readonly from: Date; readonly to: Date };
 }
@@ -31,18 +35,20 @@ interface ICalendarYear extends Omit<ICalendar, 'value'> {
 
 class NgxCalendarClass<R /* RESPONSE */> {
     constructor(
-        private readonly calendar: NgxCalendar,
+        private readonly calendar: NgxCalendar | 'DATE-TIME',
         private readonly container: IContainer,
         private readonly ngxHelperContainerService: NgxHelperContainerService,
         private readonly title?: string,
     ) {}
 
-    private getTitle(calendar: NgxCalendar, title?: string): string {
+    private getTitle(calendar: NgxCalendar | 'DATE-TIME', title?: string): string {
         if (title) return title;
 
         switch (calendar) {
             case 'DATE':
                 return 'انتخاب تاریخ';
+            case 'DATE-TIME':
+                return 'انتخاب زمان';
             case 'WEEK':
                 return 'انتخاب هفته';
             case 'MONTH':
@@ -92,6 +98,24 @@ export class NgxCalendarService {
         };
 
         return new NgxCalendarClass<INgxCalendarDate>('DATE', container, this.ngxHelperContainerService, options.title);
+    }
+
+    getDateTime(): NgxCalendarClass<INgxCalendarDateTime>;
+    getDateTime(options: Partial<ICalendarDateTime>): NgxCalendarClass<INgxCalendarDateTime>;
+    getDateTime(arg1?: any): NgxCalendarClass<INgxCalendarDateTime> {
+        const options: Partial<ICalendarDateTime> = arg1 || {};
+        const container: IContainer = {
+            value: options.value ? { from: options.value, to: options.value } : undefined,
+            minDate: options.minDate,
+            maxDate: options.maxDate,
+        };
+
+        return new NgxCalendarClass<INgxCalendarDateTime>(
+            'DATE-TIME',
+            container,
+            this.ngxHelperContainerService,
+            options.title,
+        );
     }
 
     getWeek(): NgxCalendarClass<INgxCalendarWeek>;

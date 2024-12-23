@@ -77,7 +77,24 @@ export class PageIndexComponent {
     public dateTime?: Date;
     public dateTimeContainer: Container = 'DIALOG';
 
-    getDateTime(type?: 'MIN' | 'MAX'): void {}
+    getDateTime(type?: 'MIN' | 'MAX'): void {
+        const dateTime = this.ngxCalendarService.getDateTime({
+            value: this.dateTime,
+            minDate: type === 'MIN' ? new Date() : undefined,
+            maxDate: type === 'MAX' ? new Date() : undefined,
+        });
+
+        const onResponse = (value: INgxCalendarDateTime) => (this.dateTime = value.date);
+        const onDismiss = () => console.log('DISMISSED');
+        switch (this.dateTimeContainer) {
+            case 'DIALOG':
+                dateTime.dialog(onResponse, onDismiss);
+                break;
+            case 'BOTTOMSHEET':
+                dateTime.bottomSheet(onResponse, onDismiss);
+                break;
+        }
+    }
 
     setDateTime(value: INgxCalendarDateTime): void {
         this.dateTime = value.date;

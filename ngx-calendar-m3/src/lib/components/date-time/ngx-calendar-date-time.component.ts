@@ -1,10 +1,10 @@
 import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { JalaliDateTime } from '@webilix/jalali-date-time';
-
 import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+
+import { JalaliDateTime } from '@webilix/jalali-date-time';
+import { NgxHelperDatePipe } from '@webilix/ngx-helper-m3';
 
 import { INgxCalendarDate, INgxCalendarDateTime } from '../../ngx-calendar.interface';
 
@@ -12,7 +12,7 @@ import { NgxCalendarDateComponent } from '../date/ngx-calendar-date.component';
 
 @Component({
     selector: 'ngx-calendar-date-time',
-    imports: [MatButton, MatIcon, MatMenuModule, NgxCalendarDateComponent],
+    imports: [MatButton, MatMenuModule, NgxHelperDatePipe, NgxCalendarDateComponent],
     templateUrl: './ngx-calendar-date-time.component.html',
     styleUrl: './ngx-calendar-date-time.component.scss',
 })

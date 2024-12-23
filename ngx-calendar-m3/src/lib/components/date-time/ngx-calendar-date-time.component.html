@@ -1,7 +1,8 @@
 <ngx-calendar-date [value]="value" [minDate]="minDate" [maxDate]="maxDate" (onChange)="setDate($event)"></ngx-calendar-date>
 <div class="time">
-    <mat-icon [style.opacity]="value ? 1 : 0.5">schedule</mat-icon>
+    <div class="date">{{ value | ngxHelperDate }}</div>
 
+    @if (value) {
     <button mat-button type="button" class="value" [matMenuTriggerFor]="minuteMenu" [disabled]="!value">{{ minute }}</button>
     <mat-menu #minuteMenu="matMenu" [yPosition]="'above'" class="ngx-calendar-m3-date-time-minute">
         @for (minute of minutes; track $index) {
@@ -21,7 +22,7 @@
         </button>
         }
     </mat-menu>
+    }
 
-    <div class="spacer"></div>
     <button mat-button type="button" class="submit" (click)="onSubmit()" [disabled]="!canSubmit">تایید</button>
 </div>
