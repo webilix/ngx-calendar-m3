@@ -1,0 +1,84 @@
+:host {
+    display: block;
+    direction: rtl;
+
+    .time {
+        display: flex;
+        align-items: center;
+
+        background-color: var(--surface-container-highest);
+
+        mat-icon {
+            padding: 0 1rem 0 0.5rem;
+        }
+
+        button.value {
+            width: 40px;
+            min-width: auto;
+            border-radius: 0;
+            font-weight: normal;
+            color: var(--on-surface);
+        }
+
+        button.value:disabled {
+            opacity: 0.5;
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        button.submit {
+            font-size: 85%;
+            border-radius: 0;
+        }
+    }
+}
+
+::ng-deep .ngx-calendar-m3-date-time-minute {
+    max-width: fit-content !important;
+    direction: ltr;
+
+    .mat-mdc-menu-content {
+        padding: 0;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        width: fit-content !important;
+
+        button {
+            padding: 0.75rem 0.5rem;
+            min-width: auto;
+            min-height: auto;
+            border-radius: 0;
+
+            span.minute {
+                font-size: 90%;
+            }
+        }
+    }
+}
+
+::ng-deep .ngx-calendar-m3-date-time-hour {
+    max-width: fit-content !important;
+    direction: ltr;
+
+    .mat-mdc-menu-content {
+        padding: 0;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        width: fit-content !important;
+
+        button {
+            padding: 0.75rem;
+            min-width: auto;
+            min-height: auto;
+            border-radius: 0;
+
+            span.hour {
+                font-size: 90%;
+            }
+        }
+    }
+}

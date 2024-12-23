@@ -1,0 +1,27 @@
+<ngx-calendar-date [value]="value" [minDate]="minDate" [maxDate]="maxDate" (onChange)="setDate($event)"></ngx-calendar-date>
+<div class="time">
+    <mat-icon [style.opacity]="value ? 1 : 0.5">schedule</mat-icon>
+
+    <button mat-button type="button" class="value" [matMenuTriggerFor]="minuteMenu" [disabled]="!value">{{ minute }}</button>
+    <mat-menu #minuteMenu="matMenu" [yPosition]="'above'" class="ngx-calendar-m3-date-time-minute">
+        @for (minute of minutes; track $index) {
+        <button mat-menu-item (click)="setMinute(minute)" [disabled]="!checkMinute(minute)">
+            <span class="minute">{{ minute }}</span>
+        </button>
+        }
+    </mat-menu>
+
+    <div class="colon" [style.opacity]="value ? 1 : 0.5">:</div>
+
+    <button mat-button type="button" class="value" [matMenuTriggerFor]="hourMenu" [disabled]="!value">{{ hour }}</button>
+    <mat-menu #hourMenu="matMenu" [yPosition]="'above'" class="ngx-calendar-m3-date-time-hour">
+        @for (hour of hours; track $index) {
+        <button mat-menu-item (click)="setHour(hour)" [disabled]="!checkHour(hour)">
+            <span class="hour">{{ hour }}</span>
+        </button>
+        }
+    </mat-menu>
+
+    <div class="spacer"></div>
+    <button mat-button type="button" class="submit" (click)="onSubmit()" [disabled]="!canSubmit">تایید</button>
+</div>

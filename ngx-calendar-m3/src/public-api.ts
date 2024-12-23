@@ -3,6 +3,7 @@
  */
 
 export * from './lib/components/date/ngx-calendar-date.component';
+export * from './lib/components/date-time/ngx-calendar-date-time.component';
 export * from './lib/components/week/ngx-calendar-week.component';
 export * from './lib/components/month/ngx-calendar-month.component';
 export * from './lib/components/year/ngx-calendar-year.component';

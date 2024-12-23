@@ -5,11 +5,13 @@ import { MatButton } from '@angular/material/button';
 import {
     INgxCalendar,
     INgxCalendarDate,
+    INgxCalendarDateTime,
     INgxCalendarMonth,
     INgxCalendarWeek,
     INgxCalendarYear,
     NgxCalendarComponent,
     NgxCalendarDateComponent,
+    NgxCalendarDateTimeComponent,
     NgxCalendarMonthComponent,
     NgxCalendarService,
     NgxCalendarWeekComponent,
@@ -25,6 +27,7 @@ type Container = 'DIALOG' | 'BOTTOMSHEET';
         MatButton,
         NgxCalendarComponent,
         NgxCalendarDateComponent,
+        NgxCalendarDateTimeComponent,
         NgxCalendarWeekComponent,
         NgxCalendarMonthComponent,
         NgxCalendarYearComponent,
@@ -36,8 +39,8 @@ type Container = 'DIALOG' | 'BOTTOMSHEET';
 export class PageIndexComponent {
     constructor(private readonly ngxCalendarService: NgxCalendarService) {}
 
-    public calendarMinDate?: Date = new Date(new Date().getTime() - 365 * 24 * 3600 * 1000);
-    public calendarMaxDate?: Date = new Date(new Date().getTime() + 365 * 24 * 3600 * 1000);
+    public calendarMinDate: Date = new Date(new Date().getTime() - 365 * 24 * 3600 * 1000);
+    public calendarMaxDate: Date = new Date(new Date().getTime() + 365 * 24 * 3600 * 1000);
     setCalendar(calendar: INgxCalendar): void {
         console.log('CALENDAR CHANGE:', calendar);
     }
@@ -67,6 +70,17 @@ export class PageIndexComponent {
 
     setDate(value: INgxCalendarDate): void {
         this.date = value.date;
+    }
+    //#endregion
+
+    //#region DATE TIME
+    public dateTime?: Date;
+    public dateTimeContainer: Container = 'DIALOG';
+
+    getDateTime(type?: 'MIN' | 'MAX'): void {}
+
+    setDateTime(value: INgxCalendarDateTime): void {
+        this.dateTime = value.date;
     }
     //#endregion
 
