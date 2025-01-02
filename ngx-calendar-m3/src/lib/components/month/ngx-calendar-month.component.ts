@@ -17,8 +17,8 @@ export class NgxCalendarMonthComponent implements OnInit, OnChanges {
     @HostBinding('className') private className: string = 'ngx-calendar-m3-month';
 
     @Input({ required: false }) value?: Date | { from: Date; to: Date };
-    @Input({ required: false }) minDate?: Date;
-    @Input({ required: false }) maxDate?: Date;
+    @Input({ required: false }) minDate?: 'NOW' | Date;
+    @Input({ required: false }) maxDate?: 'NOW' | Date;
     @Output() onChange: EventEmitter<INgxCalendarMonth> = new EventEmitter<INgxCalendarMonth>();
 
     public values!: { today: string; selected: string; minDate: string; maxDate: string };
@@ -60,24 +60,26 @@ export class NgxCalendarMonthComponent implements OnInit, OnChanges {
 
     initValues(): void {
         const getMonth = (date: Date): string => this.jalali.toString(date, { format: 'Y-M' });
+        let minDate: Date | undefined = this.minDate === 'NOW' ? new Date() : this.minDate;
+        let maxDate: Date | undefined = this.maxDate === 'NOW' ? new Date() : this.maxDate;
 
         // Check MIN and MAX Dates
-        if (this.minDate && this.maxDate && this.minDate.getTime() > this.maxDate.getTime()) {
-            const date: Date = this.minDate;
-            this.minDate = this.maxDate;
-            this.maxDate = date;
+        if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
+            const date: Date = new Date(minDate);
+            minDate = maxDate;
+            maxDate = date;
         }
 
         // Check Value
         let value: Date | undefined = this.value ? ('from' in this.value ? this.value.from : this.value) : undefined;
-        if (value && this.minDate && getMonth(value) < getMonth(this.minDate)) value = undefined;
-        if (value && this.maxDate && getMonth(value) > getMonth(this.maxDate)) value = undefined;
+        if (value && minDate && getMonth(value) < getMonth(minDate)) value = undefined;
+        if (value && maxDate && getMonth(value) > getMonth(maxDate)) value = undefined;
 
         this.values = {
             today: getMonth(new Date()),
             selected: value ? getMonth(value) : '',
-            minDate: this.minDate ? getMonth(this.minDate) : '0000-00',
-            maxDate: this.maxDate ? getMonth(this.maxDate) : '9999-99',
+            minDate: minDate ? getMonth(minDate) : '0000-00',
+            maxDate: maxDate ? getMonth(maxDate) : '9999-99',
         };
 
         const year: string = this.values.selected ? this.values.selected : this.values.today;

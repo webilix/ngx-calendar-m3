@@ -1,11 +1,11 @@
 <div class="calendar">
     <ngx-calendar
-        [calendars]="['DATE', 'WEEK', 'MONTH', 'YEAR', 'PERIOD']"
+        [calendars]="['MONTH', 'DATE', 'WEEK', 'MONTH', 'YEAR', 'PERIOD']"
         [minDate]="calendarMinDate"
         [maxDate]="calendarMaxDate"
         [route]="['/']"
         (onChanged)="setCalendar($event)"
-        [width]="500"
+        [width]="'500px'"
     ></ngx-calendar>
 </div>
 

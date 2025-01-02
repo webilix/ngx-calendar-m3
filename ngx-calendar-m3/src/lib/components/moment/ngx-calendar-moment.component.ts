@@ -20,8 +20,8 @@ export class NgxCalendarMomentComponent implements OnInit, OnChanges {
     @HostBinding('className') private className: string = 'ngx-calendar-m3-moment';
 
     @Input({ required: false }) value?: Date;
-    @Input({ required: false }) minDate?: Date;
-    @Input({ required: false }) maxDate?: Date;
+    @Input({ required: false }) minDate?: 'NOW' | Date;
+    @Input({ required: false }) maxDate?: 'NOW' | Date;
     @Output() onChange: EventEmitter<INgxCalendarMoment> = new EventEmitter<INgxCalendarMoment>();
 
     public canSubmit: boolean = false;
@@ -47,28 +47,34 @@ export class NgxCalendarMomentComponent implements OnInit, OnChanges {
         return this.jalali.toString(date, { format: 'Y-M-D H:I' });
     }
 
+    getMinMax(): { minDate: Date | undefined; maxDate: Date | undefined } {
+        const minDate: Date | undefined = this.minDate === 'NOW' ? new Date() : this.minDate;
+        const maxDate: Date | undefined = this.maxDate === 'NOW' ? new Date() : this.maxDate;
+
+        return { minDate, maxDate };
+    }
+
     initValues(): void {
         const updateDate = (date: Date): void => {
             date.setSeconds(0);
             date.setMilliseconds(0);
         };
+        let { minDate, maxDate } = this.getMinMax();
 
         if (this.value) updateDate(this.value);
-        if (this.minDate) updateDate(this.minDate);
-        if (this.maxDate) updateDate(this.maxDate);
+        if (minDate) updateDate(minDate);
+        if (maxDate) updateDate(maxDate);
 
         // Check MIN and MAX Dates
-        if (this.minDate && this.maxDate && this.minDate.getTime() > this.maxDate.getTime()) {
-            const date: Date = this.minDate;
-            this.minDate = this.maxDate;
-            this.maxDate = date;
+        if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
+            const date: Date = new Date(minDate);
+            minDate = maxDate;
+            maxDate = date;
         }
 
         // Check Value
-        if (this.value && this.minDate && this.formatDate(this.value) < this.formatDate(this.minDate))
-            this.value = undefined;
-        if (this.value && this.maxDate && this.formatDate(this.value) > this.formatDate(this.maxDate))
-            this.value = undefined;
+        if (this.value && minDate && this.formatDate(this.value) < this.formatDate(minDate)) this.value = undefined;
+        if (this.value && maxDate && this.formatDate(this.value) > this.formatDate(maxDate)) this.value = undefined;
 
         this.hour = (this.value || new Date()).getHours().toString().padStart(2, '0');
         this.minute = (this.value || new Date()).getMinutes().toString().padStart(2, '0');
@@ -79,19 +85,21 @@ export class NgxCalendarMomentComponent implements OnInit, OnChanges {
         this.canSubmit = false;
         if (!this.value) return;
 
+        const { minDate, maxDate } = this.getMinMax();
+
         this.value.setHours(+this.hour);
         this.value.setMinutes(+this.minute);
         this.value.setSeconds(0);
         this.value.setMilliseconds(0);
 
-        if (this.minDate && this.formatDate(this.value) < this.formatDate(this.minDate)) {
-            this.value.setHours(this.minDate.getHours());
-            this.value.setMinutes(this.minDate.getMinutes());
+        if (minDate && this.formatDate(this.value) < this.formatDate(minDate)) {
+            this.value.setHours(minDate.getHours());
+            this.value.setMinutes(minDate.getMinutes());
         }
 
-        if (this.maxDate && this.formatDate(this.value) > this.formatDate(this.maxDate)) {
-            this.value.setHours(this.maxDate.getHours());
-            this.value.setMinutes(this.maxDate.getMinutes());
+        if (maxDate && this.formatDate(this.value) > this.formatDate(maxDate)) {
+            this.value.setHours(maxDate.getHours());
+            this.value.setMinutes(maxDate.getMinutes());
         }
 
         this.hour = this.value.getHours().toString().padStart(2, '0');
@@ -105,12 +113,14 @@ export class NgxCalendarMomentComponent implements OnInit, OnChanges {
     }
 
     checkHour(hour: string): boolean {
+        const { minDate, maxDate } = this.getMinMax();
+
         if (!this.value) return false;
-        if (!this.minDate && !this.maxDate) return true;
+        if (!minDate && !maxDate) return true;
 
         const check: string = this.jalali.toString(this.value, { format: `Y-M-D ${hour}` });
-        if (this.minDate && check < this.formatDate(this.minDate).substring(0, 13)) return false;
-        if (this.maxDate && check > this.formatDate(this.maxDate).substring(0, 13)) return false;
+        if (minDate && check < this.formatDate(minDate).substring(0, 13)) return false;
+        if (maxDate && check > this.formatDate(maxDate).substring(0, 13)) return false;
         return true;
     }
 
@@ -120,12 +130,14 @@ export class NgxCalendarMomentComponent implements OnInit, OnChanges {
     }
 
     checkMinute(minute: string): boolean {
+        const { minDate, maxDate } = this.getMinMax();
+
         if (!this.value) return false;
-        if (!this.minDate && !this.maxDate) return true;
+        if (!minDate && !maxDate) return true;
 
         const check: string = this.jalali.toString(this.value, { format: `Y-M-D H:${minute}` });
-        if (this.minDate && check < this.formatDate(this.minDate)) return false;
-        if (this.maxDate && check > this.formatDate(this.maxDate)) return false;
+        if (minDate && check < this.formatDate(minDate)) return false;
+        if (maxDate && check > this.formatDate(maxDate)) return false;
         return true;
     }
 

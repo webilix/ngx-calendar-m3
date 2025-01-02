@@ -23,8 +23,8 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
     @HostBinding('className') private className: string = 'ngx-calendar-m3-date';
 
     @Input({ required: false }) value?: Date;
-    @Input({ required: false }) minDate?: Date;
-    @Input({ required: false }) maxDate?: Date;
+    @Input({ required: false }) minDate?: 'NOW' | Date;
+    @Input({ required: false }) maxDate?: 'NOW' | Date;
     @Output() onChange: EventEmitter<INgxCalendarDate> = new EventEmitter<INgxCalendarDate>();
 
     public view: 'CALENDAR' | 'MONTH' = 'CALENDAR';
@@ -71,24 +71,25 @@ export class NgxCalendarDateComponent implements OnInit, OnChanges {
     }
 
     initValues(): void {
+        let minDate: Date | undefined = this.minDate === 'NOW' ? new Date() : this.minDate;
+        let maxDate: Date | undefined = this.maxDate === 'NOW' ? new Date() : this.maxDate;
+
         // Check MIN and MAX Dates
-        if (this.minDate && this.maxDate && this.minDate.getTime() > this.maxDate.getTime()) {
-            const date: Date = this.minDate;
-            this.minDate = this.maxDate;
-            this.maxDate = date;
+        if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
+            const date: Date = new Date(minDate);
+            minDate = maxDate;
+            maxDate = date;
         }
 
         // Check Value
-        if (this.value && this.minDate && this.formatDate(this.value) < this.formatDate(this.minDate))
-            this.value = undefined;
-        if (this.value && this.maxDate && this.formatDate(this.value) > this.formatDate(this.maxDate))
-            this.value = undefined;
+        if (this.value && minDate && this.formatDate(this.value) < this.formatDate(minDate)) this.value = undefined;
+        if (this.value && maxDate && this.formatDate(this.value) > this.formatDate(maxDate)) this.value = undefined;
 
         this.values = {
             today: this.formatDate(new Date()),
             selected: this.value ? this.formatDate(this.value) : '',
-            minDate: this.minDate ? this.formatDate(this.minDate) : '0000-00-00',
-            maxDate: this.maxDate ? this.formatDate(this.maxDate) : '9999-99-99',
+            minDate: minDate ? this.formatDate(minDate) : '0000-00-00',
+            maxDate: maxDate ? this.formatDate(maxDate) : '9999-99-99',
         };
 
         const month: string = this.jalali.toString(this.value || new Date(), { format: 'Y-M' });

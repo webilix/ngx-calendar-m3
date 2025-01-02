@@ -17,8 +17,8 @@ export class NgxCalendarYearComponent implements OnInit, OnChanges {
     @HostBinding('className') private className: string = 'ngx-calendar-m3-year';
 
     @Input({ required: false }) value?: Date | { from: Date; to: Date };
-    @Input({ required: false }) minDate?: Date;
-    @Input({ required: false }) maxDate?: Date;
+    @Input({ required: false }) minDate?: 'NOW' | Date;
+    @Input({ required: false }) maxDate?: 'NOW' | Date;
     @Output() onChange: EventEmitter<INgxCalendarYear> = new EventEmitter<INgxCalendarYear>();
 
     public values!: { today: string; selected: string; minDate: string; maxDate: string };
@@ -36,24 +36,26 @@ export class NgxCalendarYearComponent implements OnInit, OnChanges {
 
     initValues(): void {
         const getYear = (date: Date): string => this.jalali.toString(date, { format: 'Y' });
+        let minDate: Date | undefined = this.minDate === 'NOW' ? new Date() : this.minDate;
+        let maxDate: Date | undefined = this.maxDate === 'NOW' ? new Date() : this.maxDate;
 
         // Check MIN and MAX Dates
-        if (this.minDate && this.maxDate && this.minDate.getTime() > this.maxDate.getTime()) {
-            const date: Date = this.minDate;
-            this.minDate = this.maxDate;
-            this.maxDate = date;
+        if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
+            const date: Date = new Date(minDate);
+            minDate = maxDate;
+            maxDate = date;
         }
 
         // Check Value
         let value: Date | undefined = this.value ? ('from' in this.value ? this.value.from : this.value) : undefined;
-        if (value && this.minDate && getYear(value) < getYear(this.minDate)) value = undefined;
-        if (value && this.maxDate && getYear(value) > getYear(this.maxDate)) value = undefined;
+        if (value && minDate && getYear(value) < getYear(minDate)) value = undefined;
+        if (value && maxDate && getYear(value) > getYear(maxDate)) value = undefined;
 
         this.values = {
             today: getYear(new Date()),
             selected: value ? getYear(value) : '',
-            minDate: this.minDate ? getYear(this.minDate) : '0000',
-            maxDate: this.maxDate ? getYear(this.maxDate) : '9999',
+            minDate: minDate ? getYear(minDate) : '0000',
+            maxDate: maxDate ? getYear(maxDate) : '9999',
         };
 
         const year: string = this.values.selected ? this.values.selected : this.values.today;

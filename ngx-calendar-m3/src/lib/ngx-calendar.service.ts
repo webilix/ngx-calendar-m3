@@ -15,8 +15,8 @@ import {
 interface ICalendar {
     readonly title: string;
     readonly value: Date;
-    readonly minDate: Date;
-    readonly maxDate: Date;
+    readonly minDate: 'NOW' | Date;
+    readonly maxDate: 'NOW' | Date;
 }
 
 interface ICalendarMoment extends ICalendar {}

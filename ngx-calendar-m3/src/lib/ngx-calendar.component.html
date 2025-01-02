@@ -5,14 +5,14 @@
     <mat-icon>keyboard_arrow_down</mat-icon>
 
     <mat-menu #calendarMenu="matMenu" class="ngx-calendar-menu">
-        @for (item of calendarsList; track $index) {
-        <!-- CALENDAR TYPE -->
-        @if (calendars.includes(item.calendar)) {
-        <button mat-menu-item (click)="setCalendar(item.calendar)" [disabled]="item.calendar === calendar">
+        @for (item of list; track $index) {
+        <!-- CHECK CALENDAR -->
+        @if (calendars.includes(item)) {
+        <button mat-menu-item (click)="setCalendar(item)" [disabled]="item === calendar">
             <mat-icon [style.margin-right]="'0'" [style.margin-left]="'0.5rem'" [style.font-size]="'18px'">
-                {{ item.icon }}
+                {{ calendarsList[item].icon }}
             </mat-icon>
-            <span>{{ item.title }}</span>
+            <span>{{ calendarsList[item].title }}</span>
         </button>
         } }
     </mat-menu>

@@ -30,10 +30,10 @@ export class NgxCalendarComponent implements OnInit {
     @HostBinding('style.--ngx-calendar-m3-height') cssHeight = '';
 
     @Input({ required: true }) calendars!: NgxCalendar[];
-    @Input({ required: false }) minDate?: Date;
-    @Input({ required: false }) maxDate?: Date;
-    @Input({ required: false }) width?: number;
-    @Input({ required: false }) height: number = 40;
+    @Input({ required: false }) minDate?: 'NOW' | Date;
+    @Input({ required: false }) maxDate?: 'NOW' | Date;
+    @Input({ required: false }) width?: string;
+    @Input({ required: false }) height: string = '40px';
     @Input({ required: false }) route: string[] = [];
     @Input({ required: false }) container: 'DIALOG' | 'BOTTONSHEET' = 'DIALOG';
     @Output() onChanged: EventEmitter<INgxCalendar> = new EventEmitter<INgxCalendar>();
@@ -47,23 +47,20 @@ export class NgxCalendarComponent implements OnInit {
     public previous: { active: boolean; date: Date } = { active: false, date: new Date() };
     public next: { active: boolean; date: Date } = { active: false, date: new Date() };
 
-    public calendarsList: { calendar: NgxCalendar; title: string; icon: string }[] = [
-        { calendar: 'DATE', title: 'روزانه', icon: 'today' },
-        { calendar: 'WEEK', title: 'هفتگی', icon: 'date_range' },
-        { calendar: 'MONTH', title: 'ماهانه', icon: 'calendar_month' },
-        { calendar: 'YEAR', title: 'سالانه', icon: 'calendar_today' },
-        { calendar: 'PERIOD', title: 'دوره زمانی', icon: 'event_note' },
-    ];
-
     private jalali = JalaliDateTime();
-    private methods: {
-        [key in NgxCalendar]: (v: number, d?: Date, t?: string) => JalaliDateTimePeriod;
+    public list: NgxCalendar[] = ['DATE', 'WEEK', 'MONTH', 'YEAR', 'PERIOD'];
+    public calendarsList: {
+        [key in NgxCalendar]: {
+            title: string;
+            icon: string;
+            method: (v: number, d?: Date, t?: string) => JalaliDateTimePeriod;
+        };
     } = {
-        DATE: this.jalali.periodDay,
-        WEEK: this.jalali.periodWeek,
-        MONTH: this.jalali.periodMonth,
-        YEAR: this.jalali.periodYear,
-        PERIOD: this.jalali.periodDay,
+        DATE: { title: 'روزانه', icon: 'today', method: this.jalali.periodDay },
+        WEEK: { title: 'هفتگی', icon: 'date_range', method: this.jalali.periodWeek },
+        MONTH: { title: 'ماهانه', icon: 'calendar_month', method: this.jalali.periodMonth },
+        YEAR: { title: 'سالانه', icon: 'calendar_today', method: this.jalali.periodYear },
+        PERIOD: { title: 'دوره زمانی', icon: 'event_note', method: this.jalali.periodDay },
     };
 
     constructor(
@@ -73,17 +70,21 @@ export class NgxCalendarComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.cssWidth = this.width ? `${this.width}px` : '100%';
-        this.cssHeight = `${Math.max(32, this.height)}px`;
+        this.cssWidth = this.width || '100%';
+        this.cssHeight = this.height;
 
-        this.calendars = this.calendars.filter((calendar) => this.calendarsList.find((c) => c.calendar === calendar));
+        this.calendars = this.calendars
+            .filter((calendar) => !!this.calendarsList[calendar])
+            .filter((calendar, index, arr) => arr.indexOf(calendar) === index);
         if (this.calendars.length === 0) this.calendars = ['DATE', 'WEEK', 'MONTH', 'YEAR', 'PERIOD'];
 
+        let { minDate, maxDate } = this.getMinMax();
+
         // Check MIN and MAX Dates
-        if (this.minDate && this.maxDate && this.minDate.getTime() > this.maxDate.getTime()) {
-            const date: Date = this.minDate;
-            this.minDate = this.maxDate;
-            this.maxDate = date;
+        if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
+            const date: Date = new Date(minDate);
+            minDate = maxDate;
+            maxDate = date;
         }
 
         const queryParams: { [key: string]: any } = { ...this.activatedRoute.snapshot.queryParams };
@@ -101,6 +102,13 @@ export class NgxCalendarComponent implements OnInit {
                 : new Date();
 
         this.setCalendar(calendar, from, to);
+    }
+
+    getMinMax(): { minDate: Date | undefined; maxDate: Date | undefined } {
+        const minDate: Date | undefined = this.minDate === 'NOW' ? new Date() : this.minDate;
+        const maxDate: Date | undefined = this.maxDate === 'NOW' ? new Date() : this.maxDate;
+
+        return { minDate, maxDate };
     }
 
     updateView(): void {
@@ -125,14 +133,16 @@ export class NgxCalendarComponent implements OnInit {
                 break;
         }
 
+        const { minDate, maxDate } = this.getMinMax();
+
         // Update Previous and Next
         if (this.calendar !== 'PERIOD') {
-            const previousCheck = this.minDate ? this.methods[this.calendar](1, this.minDate).from : undefined;
-            this.previous.date = this.methods[this.calendar](1, new Date(this.from.getTime() - 1)).from;
+            const previousCheck = minDate ? this.calendarsList[this.calendar].method(1, minDate).from : undefined;
+            this.previous.date = this.calendarsList[this.calendar].method(1, new Date(this.from.getTime() - 1)).from;
             this.previous.active = !previousCheck || this.previous.date.getTime() >= previousCheck.getTime();
 
-            const nextCheck = this.maxDate ? this.methods[this.calendar](1, this.maxDate).to : undefined;
-            this.next.date = this.methods[this.calendar](1, new Date(this.to.getTime() + 1)).to;
+            const nextCheck = maxDate ? this.calendarsList[this.calendar].method(1, maxDate).to : undefined;
+            this.next.date = this.calendarsList[this.calendar].method(1, new Date(this.to.getTime() + 1)).to;
             this.next.active = !nextCheck || this.next.date.getTime() <= nextCheck.getTime();
         }
 
@@ -158,14 +168,15 @@ export class NgxCalendarComponent implements OnInit {
     }
 
     setCalendar(calendar: NgxCalendar, from?: Date, to?: Date): void {
+        const { minDate, maxDate } = this.getMinMax();
         const checkDate = (date: Date): Date => {
-            if (this.minDate && date.getTime() < this.minDate.getTime()) date = this.minDate;
-            if (this.maxDate && date.getTime() > this.maxDate.getTime()) date = this.maxDate;
+            if (minDate && date.getTime() < minDate.getTime()) date = minDate;
+            if (maxDate && date.getTime() > maxDate.getTime()) date = maxDate;
             return date;
         };
 
         this.calendar = calendar;
-        this.calendarTitle = this.calendarsList.find((c) => c.calendar === this.calendar)?.title || '';
+        this.calendarTitle = this.calendarsList[this.calendar].title;
         const date: Date = checkDate(from || new Date());
 
         switch (this.calendar) {
@@ -173,7 +184,7 @@ export class NgxCalendarComponent implements OnInit {
             case 'WEEK':
             case 'MONTH':
             case 'YEAR':
-                const period: JalaliDateTimePeriod = this.methods[this.calendar](1, date);
+                const period: JalaliDateTimePeriod = this.calendarsList[this.calendar].method(1, date);
                 this.from = period.from;
                 this.to = period.to;
                 break;
@@ -189,14 +200,14 @@ export class NgxCalendarComponent implements OnInit {
     setPrevious(): void {
         if (this.calendar === 'PERIOD' || !this.previous.active) return;
         this.from = this.previous.date;
-        this.to = this.methods[this.calendar](1, this.previous.date).to;
+        this.to = this.calendarsList[this.calendar].method(1, this.previous.date).to;
 
         this.updateView();
     }
 
     setNext(): void {
         if (this.calendar === 'PERIOD' || !this.next.active) return;
-        this.from = this.methods[this.calendar](1, this.next.date).from;
+        this.from = this.calendarsList[this.calendar].method(1, this.next.date).from;
         this.to = this.next.date;
 
         this.updateView();

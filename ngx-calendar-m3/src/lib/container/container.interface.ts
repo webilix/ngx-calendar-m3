@@ -3,6 +3,6 @@ export interface IContainer {
         readonly from: Date;
         readonly to: Date;
     };
-    readonly minDate?: Date;
-    readonly maxDate?: Date;
+    readonly minDate?: 'NOW' | Date;
+    readonly maxDate?: 'NOW' | Date;
 }

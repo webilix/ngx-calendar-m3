@@ -52,8 +52,8 @@ export class PageIndexComponent {
     getMoment(type?: 'MIN' | 'MAX'): void {
         const moment = this.ngxCalendarService.getMoment({
             value: this.moment,
-            minDate: type === 'MIN' ? new Date() : undefined,
-            maxDate: type === 'MAX' ? new Date() : undefined,
+            minDate: type === 'MIN' ? 'NOW' : undefined,
+            maxDate: type === 'MAX' ? 'NOW' : undefined,
         });
 
         const onResponse = (value: INgxCalendarMoment) => (this.moment = value.moment);
@@ -80,8 +80,8 @@ export class PageIndexComponent {
     getDate(type?: 'MIN' | 'MAX'): void {
         const date = this.ngxCalendarService.getDate({
             value: this.date,
-            minDate: type === 'MIN' ? new Date() : undefined,
-            maxDate: type === 'MAX' ? new Date() : undefined,
+            minDate: type === 'MIN' ? 'NOW' : undefined,
+            maxDate: type === 'MAX' ? 'NOW' : undefined,
         });
 
         const onResponse = (value: INgxCalendarDate) => (this.date = value.date);
@@ -108,8 +108,8 @@ export class PageIndexComponent {
     getWeek(type?: 'MIN' | 'MAX'): void {
         const week = this.ngxCalendarService.getWeek({
             value: this.week,
-            minDate: type === 'MIN' ? new Date() : undefined,
-            maxDate: type === 'MAX' ? new Date() : undefined,
+            minDate: type === 'MIN' ? 'NOW' : undefined,
+            maxDate: type === 'MAX' ? 'NOW' : undefined,
         });
 
         const onResponse = (value: INgxCalendarWeek) => (this.week = value.period);
@@ -136,8 +136,8 @@ export class PageIndexComponent {
     getMonth(type?: 'MIN' | 'MAX'): void {
         const month = this.ngxCalendarService.getMonth({
             value: this.month,
-            minDate: type === 'MIN' ? new Date() : undefined,
-            maxDate: type === 'MAX' ? new Date() : undefined,
+            minDate: type === 'MIN' ? 'NOW' : undefined,
+            maxDate: type === 'MAX' ? 'NOW' : undefined,
         });
 
         const onResponse = (value: INgxCalendarMonth) => (this.month = value.period);
@@ -164,8 +164,8 @@ export class PageIndexComponent {
     getYear(type?: 'MIN' | 'MAX'): void {
         const year = this.ngxCalendarService.getYear({
             value: this.year,
-            minDate: type === 'MIN' ? new Date() : undefined,
-            maxDate: type === 'MAX' ? new Date() : undefined,
+            minDate: type === 'MIN' ? 'NOW' : undefined,
+            maxDate: type === 'MAX' ? 'NOW' : undefined,
         });
 
         const onResponse = (value: INgxCalendarYear) => (this.year = value.period);

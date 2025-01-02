@@ -24,8 +24,8 @@ export class NgxCalendarWeekComponent implements OnInit, OnChanges {
     @HostBinding('className') private className: string = 'ngx-calendar-m3-week';
 
     @Input({ required: false }) value?: Date | { from: Date; to: Date };
-    @Input({ required: false }) minDate?: Date;
-    @Input({ required: false }) maxDate?: Date;
+    @Input({ required: false }) minDate?: 'NOW' | Date;
+    @Input({ required: false }) maxDate?: 'NOW' | Date;
     @Output() onChange: EventEmitter<INgxCalendarWeek> = new EventEmitter<INgxCalendarWeek>();
 
     public view: 'CALENDAR' | 'MONTH' = 'CALENDAR';
@@ -72,28 +72,31 @@ export class NgxCalendarWeekComponent implements OnInit, OnChanges {
     }
 
     initValues(): void {
+        let minDate: Date | undefined = this.minDate === 'NOW' ? new Date() : this.minDate;
+        let maxDate: Date | undefined = this.maxDate === 'NOW' ? new Date() : this.maxDate;
+
         const getWeek = (date: Date, period: 'from' | 'to'): string => {
             const week: JalaliDateTimePeriod = this.jalali.periodWeek(1, date);
             return this.formatDate(period === 'from' ? week.from : week.to);
         };
 
         // Check MIN and MAX Dates
-        if (this.minDate && this.maxDate && this.minDate.getTime() > this.maxDate.getTime()) {
-            const date: Date = this.minDate;
-            this.minDate = this.maxDate;
-            this.maxDate = date;
+        if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
+            const date: Date = new Date(minDate);
+            minDate = maxDate;
+            maxDate = date;
         }
 
         // Check Value
         let value: Date | undefined = this.value ? ('from' in this.value ? this.value.from : this.value) : undefined;
-        if (value && this.minDate && this.formatDate(value) < getWeek(this.minDate, 'from')) value = undefined;
-        if (value && this.maxDate && this.formatDate(value) > getWeek(this.maxDate, 'to')) value = undefined;
+        if (value && minDate && this.formatDate(value) < getWeek(minDate, 'from')) value = undefined;
+        if (value && maxDate && this.formatDate(value) > getWeek(maxDate, 'to')) value = undefined;
 
         this.values = {
             today: this.formatDate(new Date()),
             selected: value ? getWeek(value, 'from') : '',
-            minDate: this.minDate ? getWeek(this.minDate, 'from') : '0000-00-00',
-            maxDate: this.maxDate ? getWeek(this.maxDate, 'to') : '9999-99-99',
+            minDate: minDate ? getWeek(minDate, 'from') : '0000-00-00',
+            maxDate: maxDate ? getWeek(maxDate, 'to') : '9999-99-99',
         };
 
         const month: string = this.jalali.toString(value || new Date(), { format: 'Y-M' });
