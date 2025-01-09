@@ -79,6 +79,7 @@ export class PageIndexComponent {
 
     getDate(type?: 'MIN' | 'MAX'): void {
         const date = this.ngxCalendarService.getDate({
+            title: 'انتخاب تاریخ ::‌ بررسی نمایش عنوان‌های طولانی در هدر کانتینرها',
             value: this.date,
             minDate: type === 'MIN' ? 'NOW' : undefined,
             maxDate: type === 'MAX' ? 'NOW' : undefined,

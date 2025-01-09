@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { NgxHelperContainerService } from '@webilix/ngx-helper-m3';
 
-import { DialogComponent, IContainer } from './container';
+import { BottomSheetComponent, DialogComponent, IContainer } from './container';
 import {
     INgxCalendarDate,
     INgxCalendarMoment,
@@ -75,7 +75,7 @@ class NgxCalendarClass<R /* RESPONSE */> {
     bottomSheet(onResponse: (response: R) => void, onDismiss: () => void): void;
     bottomSheet(onResponse: (response: R) => void, onDismiss?: () => void): void {
         this.ngxHelperContainerService
-            .init(DialogComponent, this.getTitle(this.calendar, this.title), {
+            .init(BottomSheetComponent, this.getTitle(this.calendar, this.title), {
                 data: { calendar: this.calendar, container: this.container },
                 padding: '0',
             })
