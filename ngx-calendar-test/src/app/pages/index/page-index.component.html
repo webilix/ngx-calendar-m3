@@ -5,8 +5,10 @@
         [maxDate]="calendarMaxDate"
         [route]="['/']"
         (onChanged)="setCalendar($event)"
-        [width]="'500px'"
+        [width]="'450px'"
     ></ngx-calendar>
+
+    <ngx-calendar-day [route]="['/']" [width]="'300px'" (onChanged)="setDay($event)"></ngx-calendar-day>
 </div>
 
 <!-- MOMENT -->

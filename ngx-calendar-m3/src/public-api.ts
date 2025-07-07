@@ -11,3 +11,7 @@ export * from './lib/components/year/ngx-calendar-year.component';
 export * from './lib/ngx-calendar.component';
 export * from './lib/ngx-calendar.interface';
 export * from './lib/ngx-calendar.service';
+
+// DAY (MM-DD)
+export * from './lib/day/ngx-calendar-day.component';
+export * from './lib/day/ngx-calendar-day.interface';

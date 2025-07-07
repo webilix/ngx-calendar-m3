@@ -311,4 +311,59 @@
     .calendar-buttons.square {
         border-radius: 0;
     }
+
+    .calendar-background {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 10000;
+    }
+
+    .calendar-view {
+        position: absolute;
+        top: var(--ngx-calendar-m3-height);
+        left: 0;
+        right: 0;
+
+        border: 1px solid var(--outline-variant);
+        background-color: var(--surface-container-high);
+        z-index: 10001;
+
+        .months {
+            display: flex;
+            align-items: center;
+
+            .month {
+                padding: 1.5rem 0;
+                flex: 1;
+                cursor: pointer;
+                text-align: center;
+            }
+        }
+
+        .header {
+            font-weight: 500;
+            padding: 0.5rem;
+            text-align: center;
+            background-color: var(--surface-container-highest);
+        }
+
+        .week {
+            display: flex;
+            align-items: center;
+
+            .day {
+                padding: 1rem 0;
+                flex: 1;
+                cursor: pointer;
+                text-align: center;
+            }
+
+            .day.empty {
+                cursor: default;
+            }
+        }
+    }
 }

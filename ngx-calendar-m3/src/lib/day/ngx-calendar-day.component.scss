@@ -1,0 +1,5 @@
+:host {
+    position: relative;
+    height: var(--ngx-calendar-m3-height);
+    width: min(var(--ngx-calendar-m3-width), 100%);
+}

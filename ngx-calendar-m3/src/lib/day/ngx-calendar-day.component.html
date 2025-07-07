@@ -1,0 +1,44 @@
+<div class="calendar-title" (click)="view = 'MONTH'">
+    {{ title }}
+</div>
+
+<div class="calendar-buttons">
+    <button mat-icon-button type="button" (click)="setPrevious()">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button mat-icon-button type="button" (click)="setNext()">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <button mat-icon-button type="button" (click)="view = 'MONTH'">
+        <mat-icon>calendar_month</mat-icon>
+    </button>
+</div>
+
+@if (view) {
+<div class="calendar-background" (click)="view = undefined"></div>
+<div class="calendar-view">
+    @switch (view) {
+    <!-- MONTH -->
+    @case ('MONTH') {
+    <!-- SEASON -->
+    @for (season of months; track $index; let $sIndex = $index) {
+    <div class="months">
+        @for (month of season; track $index; let $mIndex = $index) {
+        <div class="month" (click)="setMonth($sIndex * 3 + $mIndex + 1)">{{ month }}</div>
+        }
+    </div>
+    } }
+    <!-- DAY -->
+    @case ('DAY') {
+    <div class="header">{{ selected?.title }}</div>
+    <!-- WEEK -->
+    @for (week of days; track $index) {
+    <div class="week">
+        @for (day of week; track $index) {
+        <div class="day" [class.empty]="!day" (click)="setDay(day)">{{ day }}</div>
+        }
+    </div>
+    } } }
+</div>
+}

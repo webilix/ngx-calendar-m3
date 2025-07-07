@@ -5,12 +5,14 @@ import { MatButton } from '@angular/material/button';
 import {
     INgxCalendar,
     INgxCalendarDate,
+    INgxCalendarDay,
     INgxCalendarMoment,
     INgxCalendarMonth,
     INgxCalendarWeek,
     INgxCalendarYear,
     NgxCalendarComponent,
     NgxCalendarDateComponent,
+    NgxCalendarDayComponent,
     NgxCalendarMomentComponent,
     NgxCalendarMonthComponent,
     NgxCalendarService,
@@ -28,6 +30,7 @@ type Container = 'DIALOG' | 'BOTTOMSHEET';
         NgxCalendarComponent,
         NgxCalendarMomentComponent,
         NgxCalendarDateComponent,
+        NgxCalendarDayComponent,
         NgxCalendarWeekComponent,
         NgxCalendarMonthComponent,
         NgxCalendarYearComponent,
@@ -43,6 +46,9 @@ export class PageIndexComponent {
     public calendarMaxDate: Date = new Date(new Date().getTime() + 365 * 24 * 3600 * 1000);
     setCalendar(calendar: INgxCalendar): void {
         console.log('CALENDAR CHANGE:', calendar);
+    }
+    setDay(day: INgxCalendarDay): void {
+        console.log('DAY CHANGE:', day);
     }
 
     //#region MOMENT
