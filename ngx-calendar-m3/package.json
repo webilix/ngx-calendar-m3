@@ -25,9 +25,9 @@
         "@angular/common": ">=20.1.4",
         "@angular/core": ">=20.1.4",
         "@angular/material": ">=20.1.4",
-        "@webilix/helper-library": ">=6.1.3",
-        "@webilix/jalali-date-time": ">=2.0.7",
-        "@webilix/ngx-helper-m3": ">=0.0.29"
+        "@webilix/helper-library": ">=6.1.6",
+        "@webilix/jalali-date-time": ">=2.0.8",
+        "@webilix/ngx-helper-m3": ">=0.0.39"
     },
     "dependencies": {
         "tslib": "^2.3.0"
