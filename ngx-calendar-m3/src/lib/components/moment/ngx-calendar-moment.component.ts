@@ -112,7 +112,7 @@ export class NgxCalendarMomentComponent implements OnInit, OnChanges {
         this.updateValue();
     }
 
-    checkHour(hour: string): boolean {
+    isActiveHour(hour: string): boolean {
         const { minDate, maxDate } = this.getMinMax();
 
         if (!this.value) return false;
@@ -129,7 +129,7 @@ export class NgxCalendarMomentComponent implements OnInit, OnChanges {
         this.updateValue();
     }
 
-    checkMinute(minute: string): boolean {
+    isActiveMinute(minute: string): boolean {
         const { minDate, maxDate } = this.getMinMax();
 
         if (!this.value) return false;
